@@ -1,0 +1,24 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
+.profil__pad-top {
+    padding-top: 80px;
+}
+
+.profil_preview {
+    max-width: 80%;
+    overflow: hidden;
+}
+
+.profil_preview img {
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 50%;
+    width: 50%;
+    height: 100%;
+    aspect-ratio: 1/1;
+}

@@ -1,0 +1,5 @@
+.posts__modif {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 5px 5px 0;
+}
