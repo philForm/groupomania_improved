@@ -20,8 +20,7 @@ const Navbar = () => {
 
   const [logged, setLogged] = useState(false);
   const [userId, setUserId] = useState(tokenService.idCompare());
-  const [data, setData] = useState([]);
-  const [display, setDisplay] = useState(true)
+  // const [data, setData] = useState([]);
 
 
   /**
@@ -72,7 +71,9 @@ const Navbar = () => {
           <div className="connect" ref={deconnect}>
             <div className='nav__avatar'>
               <Link to={"/form/profil"}>
-                <img id="user_avatar" src={data.user_picture} alt="avatar" />
+                <img id="user_avatar"
+                  // src={data.user_picture}
+                  alt="avatar" />
               </Link>
             </div>
             <div className="popup">Changez l'image de votre avatar</div>

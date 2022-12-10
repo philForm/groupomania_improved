@@ -73,11 +73,12 @@ const Profil = () => {
 
         fetchData();
 
-        // Vide les champs du formulaire :
-        document.forms["profil_form"].reset();
+        // // Vide les champs du formulaire :
+        // document.forms["profil_form"].reset();
 
-        // Redirection vers la page des posts :
-        navigate('/');
+        // // Redirection vers la page des posts :
+        // navigate('/');
+        redirection();
 
     };
 

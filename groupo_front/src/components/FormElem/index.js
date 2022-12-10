@@ -14,7 +14,7 @@ const FormElem = () => {
 
     const signup = useRef();
     const login = useRef();
-    const span = useRef();
+    // const span = useRef();
 
 
     /**
@@ -51,9 +51,9 @@ const FormElem = () => {
                 {displayLogin &&
                     <Login />
                 }
-                <span className="disp_none" ref={span}>
+                {/* <span className="disp_none" ref={span}>
                     Vous pouvez vous connecter !
-                </span>
+                </span> */}
             </div>
         </div>
     );

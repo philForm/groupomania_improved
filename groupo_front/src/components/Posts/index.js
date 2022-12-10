@@ -240,9 +240,12 @@ const Posts = ({ data, fetchData }) => {
                     }
 
                     <div className='posts__img'>
-                        {(item.post_picture && item.post_picture !== "") ?
+                        {/* {(item.post_picture && item.post_picture !== "") ?
                             <img src={item.post_picture} alt="post" /> :
-                            <img src='' alt='' />}
+                            <img src='' alt='' />} */}
+                        {(item.post_picture && item.post_picture !== "") &&
+                            <img src={item.post_picture} alt="post" />
+                        }
                     </div>
                     <div className='posts__post'>
                         {item.post}
