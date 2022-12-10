@@ -70,7 +70,8 @@ const signupUser = async (req, res, next) => {
         if (!tab) {
 
             Db.query(`
-                    INSERT INTO users (firstname, lastname, pass_word, email, user_picture) VALUES (?,?,?,?,?);`,
+                    INSERT INTO users (firstname, lastname, pass_word, email, user_picture)
+                    VALUES (?,?,?,?,?);`,
                 {
                     replacements: [firstname, lastname, hash, email, avatar],
                     type: QueryTypes.INSERT
@@ -117,12 +118,17 @@ const addUserAvatar = async (req, res, next) => {
             const avatar = picture.user_picture.split('/images/')[1];
             // Suppression de l'ancienne image du dossier images :
             if (avatar != avatarImg) {
-                fs.unlink(`images/${avatar}`, (err) => {
-                    if (err) throw err;
-                });
-            }
+                // fs.unlink(`images/${avatar}`, (err) => {
+                //     if (err) throw err;
+                // });
+                try {
+                    fs.unlink(`images/${avatar}`);
+                } catch (err) {
+                    console.log(err);
+                };
+            };
 
-        }
+        };
         // Envoi de l'URL du nouvel avatar dans la BDD :
         const userAvatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
         await Db.query(`

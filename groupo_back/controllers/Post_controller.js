@@ -22,7 +22,8 @@ const createPost = async (req, res, next) => {
         postPicture = "";
 
     await Db.query(`
-            INSERT INTO posts (post, post_picture, user_id) VALUES (?,?,?);`,
+            INSERT INTO posts (post, post_picture, user_id)
+            VALUES (?,?,?);`,
         {
             replacements: [
                 body.post,
@@ -42,7 +43,7 @@ const createPost = async (req, res, next) => {
  */
 const sendAllPosts = async (req, res, next) => {
 
-    const [posts2] = await Db.query(`
+    const [posts] = await Db.query(`
         SELECT email, user_picture, post, post_picture, posts.id, posts.user_id, posts.createdAt,
         IFNULL(B.like1, 0) AS like1, IFNULL(C.like0, 0) AS like0 
         FROM posts 
@@ -57,7 +58,7 @@ const sendAllPosts = async (req, res, next) => {
         ORDER BY posts.createdAt DESC;
         `
     )
-    res.send(posts2);
+    res.send(posts);
 
 };
 
@@ -145,9 +146,14 @@ const modifyPost = async (req, res, next) => {
             // Si une image existe elle est supprimée du dossier :
             if (image) {
                 // Suppression de l'ancienne image du dossier images :
-                fs.unlink(`images/${image}`, (err) => {
-                    if (err) throw err;
-                });
+                // fs.unlink(`images/${image}`, (err) => {
+                //     if (err) throw err;
+                // });
+                try {
+                    fs.unlink(`images/${image}`);
+                } catch (err) {
+                    console.log(err);
+                }
             }
 
             // Envoi de l'URL de la nouvelle image dans la BDD :
@@ -224,9 +230,14 @@ const deletePost = async (req, res, next) => {
             // Récupération du nom de l'image à partir de l'URL :
             const image = imageUrl.post_picture.split('/images/')[1];
             // Suppression de l'image :
-            fs.unlink(`images/${image}`, (err) => {
-                if (err) throw err;
-            });
+            // fs.unlink(`images/${image}`, (err) => {
+            //     if (err) throw err;
+            // });
+            try {
+                fs.unlink(`images/${image}`);
+            } catch (err) {
+                console.log(err);
+            }
         }
         // Suppression du post :
         await Db.query(`
