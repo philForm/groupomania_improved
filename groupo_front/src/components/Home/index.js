@@ -29,12 +29,10 @@ function Home() {
 
   };
 
-  if (userId)
-    fetchUser();
 
   /**
    * Récupère tous les posts de la BDD
-   */
+  */
   const fetchData = async () => {
     try {
       const result = await axios.get(`${process.env.REACT_APP_URL_API}api/post`);
@@ -46,6 +44,11 @@ function Home() {
     };
   };
 
+  useEffect(() => {
+    if (userId)
+      fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     fetchData();

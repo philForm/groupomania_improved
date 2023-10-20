@@ -4,6 +4,7 @@ import { requiredForm } from '../../functions/users_functions.js';
 
 const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 
+
 /**
  * Enregistre un utilisateur : 
  */
@@ -25,7 +26,6 @@ const Signup = (props) => {
         }
     });
 
-
     const firstName = useRef();
     const firstNameControl = useRef();
     const lastName = useRef();
@@ -45,7 +45,27 @@ const Signup = (props) => {
 
         e.preventDefault();
 
-        validInput.bool = true;
+        setValidInput({
+            ...validInput,
+            validInput: {
+                bool: true,
+            }
+        })
+
+
+        setVerifEmail({
+            ...verifEmail,
+            verifEmail: {
+                bool: false,
+            }
+        });
+
+        setVerifPassword({
+            ...verifPassword,
+            verifPassword: {
+                bool: false,
+            }
+        })
 
         requiredForm(firstName, firstNameControl, validInput, "my_red", "invalid-feedback");
         requiredForm(lastName, lastNameControl, validInput, "my_red", "invalid-feedback");

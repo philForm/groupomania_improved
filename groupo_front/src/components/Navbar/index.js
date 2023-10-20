@@ -19,25 +19,14 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [logged, setLogged] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useState(tokenService.idCompare());
-  // const [data, setData] = useState([]);
-
 
   /**
-   * Connecte un utilisateur :
-   * @param {boolean} logged 
-   * @returns {boolean}
-   */
-  const isLogged = (logged) => {
-    if (tokenService.isLogged()) {
-      logged = true;
-      // setDisplay(false)
-    } else {
-      logged = false;
-      // setDisplay(true)
-    }
-    return logged;
-  };
+     * Connecte un utilisateur : 
+     * @returns {boolean}
+     */
+  const isLogged = () => tokenService.isLogged() ? true : false;
 
   /**
    * Déconnecte un utilisateur :
@@ -57,17 +46,7 @@ const Navbar = () => {
         <img src={logo} alt="logo" className="logo App-logo" />
       </div>
       <div className="nav">
-        {!isLogged(logged) &&
-          <ul className="nav nav_mob">
-            <li className="">
-              <Link className="" aria-current="page" to="/">Accueil</Link>
-            </li>
-            <li className="nav" id="nav-signup">
-              <Link className="nav-link" ref={signup} to="/form">Inscription</Link>
-            </li>
-          </ul>
-        }
-        {isLogged(logged) &&
+        {isLogged(logged) ? (
           <div className="connect" ref={deconnect}>
             <div className='nav__avatar'>
               <Link to={"/form/profil"}>
@@ -84,6 +63,16 @@ const Navbar = () => {
             </div>
             <div className="popup">Déconnexion</div>
           </div>
+        ) : (
+          <ul className="nav nav_mob">
+            <li className="">
+              <Link className="" aria-current="page" to="/">Accueil</Link>
+            </li>
+            <li className="nav" id="nav-signup">
+              <Link className="nav-link" ref={signup} to="/form">Inscription</Link>
+            </li>
+          </ul>
+        )
         }
       </div>
     </div >
