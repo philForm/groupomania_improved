@@ -1,4 +1,4 @@
-import axios from "axios";
+import { accountService } from "../../services/account.service";
 
 const PostEvaluate = ({ token, item }) => {
 
@@ -9,22 +9,20 @@ const PostEvaluate = ({ token, item }) => {
     */
     const postEvaluate = async (postId, like) => {
 
-        await axios.post(`${process.env.REACT_APP_URL_API}api/post/like`, {
+        const likeObj = {
             like: like,
             postId: postId
-        }, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            }
-        }).then(res => {
-            document.getElementById("like1_" + res.data.post_id).textContent = res.data.like1;
-            document.getElementById("like0_" + res.data.post_id).textContent = res.data.like0;
-        }).catch(err => {
-            console.log(err.response.statusText);
-            document.getElementById(`error_${postId}`).textContent = "Vous n'êtes pas connecté !";
-            document.getElementById(`error_${postId}`).classList.add("my_red");
-        })
+        }
+
+        await accountService.likePost(likeObj, token)
+            .then(res => {
+                document.getElementById("like1_" + res.data.post_id).textContent = res.data.like1;
+                document.getElementById("like0_" + res.data.post_id).textContent = res.data.like0;
+            }).catch(err => {
+                console.log(err.response.statusText);
+                document.getElementById(`error_${postId}`).textContent = "Vous n'êtes pas connecté !";
+                document.getElementById(`error_${postId}`).classList.add("my_red");
+            })
     };
 
     return (

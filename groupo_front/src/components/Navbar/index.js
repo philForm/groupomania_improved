@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { tokenService } from "../../services/storage_service";
+import { tokenService } from "../../services/storage.service";
 
 import logo from "../../assets/logo_groupomania_navbar.png";
 import shut from "../../assets/button-icon-shut-cliparts.png";

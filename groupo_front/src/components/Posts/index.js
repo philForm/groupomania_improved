@@ -1,6 +1,6 @@
 import React, { useState, Fragment, useRef } from 'react';
-import axios from 'axios';
-import { tokenService } from '../../services/storage_service';
+import { tokenService } from '../../services/storage.service';
+import { accountService } from '../../services/account.service';
 
 import PostEvaluate from '../PostEvaluate';
 import PostProfil from '../PostProfil';
@@ -71,13 +71,7 @@ const Posts = ({ data, fetchData }) => {
 
         if (confirmation) {
 
-            await axios.delete(`${process.env.REACT_APP_URL_API}api/post/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            )
+            await accountService.deletePost(id, token)
                 .then((res) => {
                     if (res.status === 200) {
                         return res
@@ -107,21 +101,13 @@ const Posts = ({ data, fetchData }) => {
         let formData = new FormData();
 
         // Récupère l'id de l'utilisateur propriétaire du post :
-        const user = await axios.get(`${process.env.REACT_APP_URL_API}api/post/${id}`);
+        const user = await accountService.getId(id);
 
         formData.append('post', post.current.value);
         formData.append('image', picture.current.files[0]);
         formData.append('userId', user.data.userId);
 
-        // Modification du post :
-        await axios.put(`${process.env.REACT_APP_URL_API}api/post/${id}`, formData,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
+        await accountService.updatePost(id, formData, token)
             .then((res) => {
                 if (res.status === 200) {
                     return res

@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-import { tokenService } from '../../services/storage_service';
+import { tokenService } from '../../services/storage.service';
 
 import "./login.css";
+import { accountService } from '../../services/account.service';
 
 /**
  * Formulaire de connexion :
@@ -18,7 +18,7 @@ const Login = () => {
     const errorMsg = useRef();
 
     /**
-    * Sounission du formulaire :
+    * Soumission du formulaire :
     */
     const handleSubmit = async (e) => {
 
@@ -29,8 +29,7 @@ const Login = () => {
             password: password.current.value
         };
 
-        axios.post(`${process.env.REACT_APP_URL_API}api/auth/login`, dataLogin)
-
+        await accountService.login(dataLogin)
             .then((res) => {
                 if (res.status === 200) {
                     tokenService.saveToken(JSON.stringify(res.data));

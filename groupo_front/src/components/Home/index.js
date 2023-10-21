@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import PostCreate from "../PostCreate";
 import Posts from "../Posts";
 
 import "./home.css";
-import { tokenService } from "../../services/storage_service";
+import { tokenService } from "../../services/storage.service";
+import { accountService } from "../../services/account.service";
 
 /**
  * Création et listage de tous les posts :
@@ -20,7 +20,7 @@ function Home() {
    */
   const fetchUser = async () => {
     try {
-      const result = await axios.get(`${process.env.REACT_APP_URL_API}api/auth/${userId}`);
+      const result = await accountService.getUser(userId)
       document.getElementById('user_avatar').src = result.data.user_picture;
     }
     catch (error) {
@@ -35,7 +35,7 @@ function Home() {
   */
   const fetchData = async () => {
     try {
-      const result = await axios.get(`${process.env.REACT_APP_URL_API}api/post`);
+      const result = await accountService.getAllPosts();
       // Le résultat est assigné à data du useState
       setData(result.data);
     }

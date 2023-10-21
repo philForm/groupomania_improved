@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import { requiredForm } from '../../functions/users_functions.js';
+import { accountService } from '../../services/account.service.js';
 
 const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 
@@ -110,33 +110,34 @@ const Signup = (props) => {
 
         if (verifEmail.bool && verifPassword.bool && validInput.bool) {
 
-            axios.post(`${process.env.REACT_APP_URL_API}api/auth/signup`,
-                {
-                    firstname: firstName.current.value,
-                    lastname: lastName.current.value,
-                    email: email.current.value,
-                    password: password.current.value,
-                    picture: ""
-                }
-            ).then((res) => {
-                // Si tout s'est bien passé, l'utilisateur est créé :
-                if (res.status === 201) {
-                    props.dispForm();
-                }
-                // Si l'email existe déjà dans la BDD :
-                if (res.data.message) {
-                    emailControl.current.classList.value = "my_red";
-                    emailControl.current.innerText = res.data.message;
-                }
-                // Si le mot de passe n'est pas assez sécurisé :
-                if (res.data.message2) {
-                    valid.current.classList.value = "my_red";
-                    valid.current.innerText = res.data.message2.pass;
-                    valid2.current.classList.value = "my_red";
-                    valid2.current.innerText = res.data.message2.pass2;
+            const credentials = {
+                firstname: firstName.current.value,
+                lastname: lastName.current.value,
+                email: email.current.value,
+                password: password.current.value,
+                picture: ""
+            };
 
-                }
-            })
+            accountService.signup(credentials)
+                .then((res) => {
+                    // Si tout s'est bien passé, l'utilisateur est créé :
+                    if (res.status === 201) {
+                        props.dispForm();
+                    }
+                    // Si l'email existe déjà dans la BDD :
+                    if (res.data.message) {
+                        emailControl.current.classList.value = "my_red";
+                        emailControl.current.innerText = res.data.message;
+                    }
+                    // Si le mot de passe n'est pas assez sécurisé :
+                    if (res.data.message2) {
+                        valid.current.classList.value = "my_red";
+                        valid.current.innerText = res.data.message2.pass;
+                        valid2.current.classList.value = "my_red";
+                        valid2.current.innerText = res.data.message2.pass2;
+
+                    }
+                })
                 .catch(err => console.error(err));
         };
 

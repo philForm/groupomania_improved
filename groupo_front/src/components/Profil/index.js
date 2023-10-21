@@ -1,10 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import "../FormElem/formElem.css";
 import "../Home/home.css";
 import "./profil.css";
-import { tokenService } from '../../services/storage_service';
+import { tokenService } from '../../services/storage.service';
+import { accountService } from '../../services/account.service';
 
 /**
  * Change ou ajoute l'image d'avatar au profil utilisateur :
@@ -57,13 +57,7 @@ const Profil = () => {
         let formData = new FormData();
         formData.append('image', avatar.current.files[0]);
 
-        // Envoie l'image dans la BDD :
-        await axios.put(`${process.env.REACT_APP_URL_API}api/auth/signup/${userId}`,
-            formData,
-            {
-                headers: { "Content-Type": "multipart/form-data" }
-            }
-        )
+        await accountService.signupAvatarUpdate(userId, formData)
             .then((res) => {
                 if (res.status === 200) {
                     return res
@@ -98,7 +92,7 @@ const Profil = () => {
      */
     const fetchData = async () => {
         try {
-            const result = await axios.get(`${process.env.REACT_APP_URL_API}api/auth/${userId}`);
+            const result = await accountService.getUser(userId);
 
             setData(result.data);
             document.getElementById('user_avatar').src = result.data.user_picture;

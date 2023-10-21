@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
-import { tokenService } from '../../services/storage_service';
+import { tokenService } from '../../services/storage.service';
+import { accountService } from '../../services/account.service';
 
 /**
  * Création de Posts
@@ -64,14 +64,7 @@ const PostCreate = (props) => {
         for (let item of data)
             console.log(item);
 
-        await axios.post(`${process.env.REACT_APP_URL_API}api/post`, data,
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
+        await accountService.createPost(data, token)
             .then((res) => {
                 if (res.status === 200) {
                     return res
