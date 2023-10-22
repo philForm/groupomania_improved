@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { tokenService } from "../../services/storage.service";
 
 import logo from "../../assets/logo_groupomania_navbar.png";
 import shut from "../../assets/button-icon-shut-cliparts.png";
+
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 import "./navbar.css";
 
@@ -18,9 +20,13 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
+  const { toggleTheme, theme } = useContext(ThemeContext);
+
   const [logged, setLogged] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useState(tokenService.idCompare());
+  const [toggle, setToggle] = useState(false)
+
 
   /**
      * Connecte un utilisateur : 
@@ -40,17 +46,41 @@ const Navbar = () => {
     navigate("/form");
   };
 
+  const HandleToggle = () => {
+    setToggle(toggle => !toggle)
+  }
+
+  const handleDarkTheme = () =>
+    theme ? 'btn-primary-dark' : "btn-primary";
+
   return (
-    <div className="fixe nav nav__pad nav__height">
-      <div>
+    <div
+      className={theme ? "fixe nav nav__pad nav__height dark-nav" :
+        "fixe nav nav__pad nav__height"}
+    >
+      <div className="nav__logo">
         <img src={logo} alt="logo" className="logo App-logo" />
+
+        <button
+          className={handleDarkTheme()}
+          onClick={() => toggleTheme()}
+        >{theme ? "Light" : "Dark"}
+        </button>
+
       </div>
-      <div className="nav">
+      <div
+      // className="nav"
+      >
         {isLogged(logged) ? (
-          <div className="connect" ref={deconnect}>
-            <div className='nav__avatar'>
+          <div
+            className={theme ? "connect connect-dark" : 'connect'}
+            ref={deconnect}>
+            <div
+              className={theme ? 'nav__avatar avatar-dark' : 'nav__avatar'}
+            >
               <Link to={"/form/profil"}>
-                <img id="user_avatar"
+                <img
+                  id="user_avatar"
                   // src={data.user_picture}
                   alt="avatar" />
               </Link>

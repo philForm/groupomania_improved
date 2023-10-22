@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from 'react';
+import React, { useState, Fragment, useRef, useContext } from 'react';
 import { tokenService } from '../../services/storage.service';
 import { accountService } from '../../services/account.service';
 
@@ -8,6 +8,7 @@ import PostModifDelete from '../PostModifDelete';
 import PostModifForm from '../PostModifForm';
 
 import "./posts.css";
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 /**
  * Publication et modification de posts :
@@ -15,11 +16,12 @@ import "./posts.css";
 const Posts = ({ data, fetchData }) => {
 
     const [displayId, setDisplayId] = useState(null);
-
     const [image, setImage] = useState({
         file: [],
         filepreview: null
     });
+
+    const { theme } = useContext(ThemeContext);
 
     const userIdLocal = tokenService.idCompare();
 
@@ -124,7 +126,11 @@ const Posts = ({ data, fetchData }) => {
     return (
         <Fragment>
             {data.map(item => (
-                <div key={item.id} className='posts__container' id={`${item.id}`} data-id={`${item.id}`} ref={contain}>
+                <div key={item.id}
+                    className={theme ? 'posts__container posts__container-dark' : 'posts__container '}
+                    id={`${item.id}`} data-id={`${item.id}`}
+                    ref={contain}
+                >
                     <PostProfil item={item} />
                     {((userIdLocal === item.user_id) || role === 1) &&
 
@@ -148,7 +154,9 @@ const Posts = ({ data, fetchData }) => {
                             <img src={item.post_picture} alt="post" />
                         }
                     </div>
-                    <div className='posts__post'>
+                    <div
+                        className={theme ? 'posts__post textarea-dark' : 'posts__post'}
+                    >
                         {item.post}
                     </div>
                     <PostEvaluate token={token} item={item} />

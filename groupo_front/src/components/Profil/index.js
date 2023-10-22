@@ -13,7 +13,7 @@ const Profil = () => {
 
     const navigate = useNavigate();
 
-    const [data, setData] = useState([])
+    // const [data, setData] = useState([])
     const [logo, setLogo] = useState({
         file: [],
         filepreview: null,
@@ -94,7 +94,7 @@ const Profil = () => {
         try {
             const result = await accountService.getUser(userId);
 
-            setData(result.data);
+            // setData(result.data);
             document.getElementById('user_avatar').src = result.data.user_picture;
         }
         catch (error) {

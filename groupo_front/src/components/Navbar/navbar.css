@@ -8,7 +8,7 @@
 .logo {
     width: 160px;
     height: auto;
-    position: absolute;
+    /* position: absolute; */
     top: 5px;
 }
 
@@ -24,7 +24,8 @@
     display: flex;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: flex-end;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     -webkit-box-align: end;
@@ -33,6 +34,20 @@
     gap: 2rem;
     background-color: cornflowerblue;
     font-size: 1.5rem;
+    transition: background-color 0.4s ease-in-out;
+}
+
+.dark-nav {
+    background-color: var(--dark-nav);
+    transition: background-color 0.4s ease-in-out;
+}
+
+.nav__logo {
+    display: flex;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    gap: 10px;
 }
 
 .nav__pad {
@@ -51,6 +66,12 @@
     height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
+    transition: box-shadow 0.4s ease-in-out;
+}
+
+.avatar-dark {
+    box-shadow: var(--avatar-shadow);
+    transition: box-shadow 0.4s ease-in-out;
 }
 
 .nav_mob li {
@@ -77,11 +98,21 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    position: relative;
+    /* position: relative; */
     background-color: var(--quaternary-color);
     padding: 5px;
     gap: 5px;
     right: -10px;
+    transition:
+        color 0.4s ease-in-out,
+        background-color 0.4s ease-in-out;
+}
+
+.connect-dark {
+    background-color: var(--tertiary-color);
+    transition:
+        color 0.4s ease-in-out,
+        background-color 0.4s ease-in-out;
 }
 
 .nav__deconnect {

@@ -7,18 +7,21 @@ import Navbar from './components/Navbar';
 import FormElem from './components/FormElem';
 import "normalize.css";
 import './index.css';
+import ThemeContextProvider from './contexts/ThemeContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <Router>
-    <Navbar />
-    <Routes>
-      <Route index element={<Home />} />
-      <Route path="/" element={< Home />} />
-      <Route path="/form" element={<FormElem />} />
-      <Route path="/form/profil" element={< Profil />} />
-    </Routes>
-  </Router>
+  <ThemeContextProvider>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/" element={< Home />} />
+        <Route path="/form" element={<FormElem />} />
+        <Route path="/form/profil" element={< Profil />} />
+      </Routes>
+    </Router>
+  </ThemeContextProvider>
   // </React.StrictMode>
 );

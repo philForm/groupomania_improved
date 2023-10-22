@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { tokenService } from '../../services/storage.service';
 import { accountService } from '../../services/account.service';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 /**
  * Création de Posts
@@ -11,6 +12,9 @@ const PostCreate = (props) => {
         file: [],
         filepreview: null,
     });
+
+    const { theme } = useContext(ThemeContext);
+
 
     const post = useRef();
     const picture = useRef();
@@ -79,12 +83,23 @@ const PostCreate = (props) => {
 
     };
 
+    const handleDarkTheme = () =>
+        theme ? 'btn-primary-dark' : "btn-primary";
+
     return (
-        <div className='posts__container'>
+        <div
+            className={theme ? 'posts__container posts__container-dark' : 'posts__container'}
+        >
             <form onSubmit={handleSubmit} ref={form} name="post-create_form">
                 <div className='posts__form'>
                     <label htmlFor="post-create">Message</label><br />
-                    <textarea type="textarea" id='post-create' name='post' ref={post} /><br />
+                    <textarea
+                        className={theme && "textarea-dark"}
+                        type="textarea"
+                        id='post-create'
+                        name='post'
+                        ref={post}
+                    /><br />
                 </div>
                 <div className='posts__form'>
                     <input
@@ -95,18 +110,24 @@ const PostCreate = (props) => {
                         onChange={(e) => handleChangeImage(e)}
                         ref={picture}
                     /><br />
-                    <label htmlFor="post-create_picture" className='btn-primary disp-inl-block'>Ajouter un image</label><br /><br />
+                    <label htmlFor="post-create_picture"
+                        // className='btn-primary disp-inl-block'
+                        className={`${handleDarkTheme()} disp-inl-block`}
+                    >Ajouter une image</label><br /><br />
                 </div>
-                {image.filepreview !== null &&
+                {
+                    image.filepreview !== null &&
                     <div className='posts_preview'>
                         <img
                             src={image.filepreview}
                             alt="UploadImage" />
                     </div>
                 }
-                <button className='btn-primary' type='submit'>Publier</button>
-            </form>
-        </div>
+                <button
+                    className={handleDarkTheme()}
+                    type='submit'>Publier</button>
+            </form >
+        </div >
     );
 };
 

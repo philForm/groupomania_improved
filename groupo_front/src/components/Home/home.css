@@ -13,6 +13,16 @@
     background-color: var(--quaternary-color);
     margin-bottom: 20px;
     max-width: 500px;
+    transition:
+        color 0.4s ease-in-out,
+        background-color 0.4s ease-in-out;
+}
+
+.posts__container-dark {
+    background-color: var(--tertiary-color);
+    transition:
+        color 0.4s ease-in-out,
+        background-color 0.4s ease-in-out;
 }
 
 .posts__img img {
@@ -106,6 +116,17 @@ form textarea {
     border-radius: 5px;
     padding: 10px;
     min-height: 40px;
+    transition:
+        color 0.4s ease-in-out,
+        background-color 0.4s ease-in-out;
+}
+
+.textarea-dark {
+    background-color: cornflowerblue;
+    color: aliceblue;
+    transition:
+        color 0.4s ease-in-out,
+        background-color 0.4s ease-in-out;
 }
 
 form input {

@@ -1,12 +1,22 @@
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext";
 
 const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, picture, image }) => {
 
+    const { theme } = useContext(ThemeContext);
+
+    const handleDarkTheme = () =>
+        theme ? 'btn-primary-dark' : "btn-primary";
+
     return (
-        <div className='posts__container'>
+        <div
+            className={theme ? 'posts__container posts__container-dark' : 'posts__container'}
+        >
             <form onSubmit={(e) => postUpdate(item.id, e)} ref={form}>
                 <div className='posts__form'>
                     <label htmlFor="post-update">Nouveau message</label><br />
                     <textarea
+                        className={theme && 'textarea-dark'}
                         type="textarea"
                         id='post-update'
                         name='post'
@@ -24,7 +34,10 @@ const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, pictur
                         ref={picture}
                     />
                     <br />
-                    <label htmlFor="posts_picture" className='btn-primary disp-inl-block'>Nouvelle image</label>
+                    <label
+                        htmlFor="posts_picture"
+                        className={`${handleDarkTheme()} disp-inl-block`}
+                    >Nouvelle image</label>
                     <br /><br />
                 </div>
                 {image.filepreview !== null &&
@@ -34,7 +47,10 @@ const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, pictur
                             alt="UploadImage" />
                     </div>
                 }
-                <button className='btn-primary' type='submit'>Publier</button>
+                <button
+                    className={handleDarkTheme()}
+                    type='submit'>Publier
+                </button>
             </form>
         </div>
     )
