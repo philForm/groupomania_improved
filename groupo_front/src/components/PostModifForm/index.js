@@ -3,20 +3,20 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 
 const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, picture, image }) => {
 
-    const { theme } = useContext(ThemeContext);
+    const { handleDarkTheme } = useContext(ThemeContext);
 
-    const handleDarkTheme = () =>
-        theme ? 'btn-primary-dark' : "btn-primary";
+    const { btnTheme, postTheme, textareaTheme } = handleDarkTheme;
+
 
     return (
         <div
-            className={`posts__container ${theme && 'posts__container-dark'}`}
+            className={`posts__container ${postTheme}`}
         >
             <form onSubmit={(e) => postUpdate(item.id, e)} ref={form}>
                 <div className='posts__form'>
                     <label htmlFor="post-update">Nouveau message</label><br />
                     <textarea
-                        className={theme && 'textarea-dark'}
+                        className={textareaTheme}
                         type="textarea"
                         id='post-update'
                         name='post'
@@ -36,7 +36,7 @@ const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, pictur
                     <br />
                     <label
                         htmlFor="posts_picture"
-                        className={`${handleDarkTheme()} disp-inl-block`}
+                        className={`${btnTheme} disp-inl-block`}
                     >Nouvelle image</label>
                     <br /><br />
                 </div>
@@ -48,7 +48,7 @@ const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, pictur
                     </div>
                 }
                 <button
-                    className={handleDarkTheme()}
+                    className={btnTheme}
                     type='submit'>Publier
                 </button>
             </form>

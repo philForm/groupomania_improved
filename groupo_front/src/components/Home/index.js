@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import PostCreate from "../PostCreate";
 import Posts from "../Posts";
 
-import "./home.css";
 import { tokenService } from "../../services/storage.service";
 import { accountService } from "../../services/account.service";
-import { ThemeContext } from "../../contexts/ThemeContext";
+
+import "./home.css";
 
 /**
  * Création et listage de tous les posts :
@@ -14,7 +14,6 @@ function Home() {
 
   const [data, setData] = useState([]);
 
-  // const { theme } = useContext(ThemeContext);
 
   const userId = tokenService.idCompare();
 

@@ -3,21 +3,20 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 
 const PostModifDelete = ({ item, toggle, postdel }) => {
 
-    const { theme } = useContext(ThemeContext);
+    const { handleDarkTheme } = useContext(ThemeContext);
 
-    const handleDarkTheme = () =>
-        theme ? 'btn-primary-dark' : "btn-primary";
+    const { btnTheme } = handleDarkTheme;
 
     return (
         <div className='posts__modif'>
             <button
                 id={`btn-${item.id}`}
                 onClick={() => toggle(item.id)}
-                className={handleDarkTheme()}
+                className={btnTheme}
             >Modifier</button>
 
             <button
-                className={handleDarkTheme()}
+                className={btnTheme}
                 onClick={() => postdel(item.id)}
             >Supprimer</button>
         </div>

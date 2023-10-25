@@ -20,12 +20,12 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const { toggleTheme, theme } = useContext(ThemeContext);
+  const { toggleTheme, handleDarkTheme } = useContext(ThemeContext);
 
   const [logged, setLogged] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [userId, setUserId] = useState(tokenService.idCompare());
-  const [toggle, setToggle] = useState(false)
+  // const [toggle, setToggle] = useState(false)
 
 
   /**
@@ -46,23 +46,17 @@ const Navbar = () => {
     navigate("/form");
   };
 
-  const HandleToggle = () => {
-    setToggle(toggle => !toggle)
-  }
-
-  const handleDarkTheme = () => theme ? 'btn-primary-dark' : "btn-primary";
-
   return (
     <div
-      className={`fixe nav nav__pad nav__height ${theme ? "dark-nav" : "nav-color"}`}
+      className={`fixe nav nav__pad nav__height ${handleDarkTheme.navTheme}`}
     >
       <div className="nav__logo">
         <img src={logo} alt="logo" className="logo App-logo" />
 
         <button
-          className={handleDarkTheme()}
+          className={handleDarkTheme.btnTheme}
           onClick={() => toggleTheme()}
-        >{theme ? "Light" : "Dark"}
+        >{handleDarkTheme.btnTxtTheme}
         </button>
 
       </div>
@@ -71,10 +65,10 @@ const Navbar = () => {
       >
         {isLogged(logged) ? (
           <div
-            className={`connect ${theme && 'connect-dark'}`}
+            className={`connect ${handleDarkTheme.connectTheme}`}
             ref={deconnect}>
             <div
-              className={`nav__avatar ${theme && 'avatar-dark'}`}
+              className={`nav__avatar ${handleDarkTheme.avatarTheme}`}
             >
               <Link to={"/form/profil"}>
                 <img

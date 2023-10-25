@@ -13,7 +13,9 @@ const PostCreate = (props) => {
         filepreview: null,
     });
 
-    const { theme } = useContext(ThemeContext);
+    const { handleDarkTheme } = useContext(ThemeContext);
+
+    const { btnTheme, textareaTheme, postTheme } = handleDarkTheme;
 
 
     const post = useRef();
@@ -83,18 +85,15 @@ const PostCreate = (props) => {
 
     };
 
-    const handleDarkTheme = () =>
-        theme ? 'btn-primary-dark' : "btn-primary";
-
     return (
         <div
-            className={`posts__container ${theme && 'posts__container-dark'}`}
+            className={`posts__container ${postTheme}`}
         >
             <form onSubmit={handleSubmit} ref={form} name="post-create_form">
                 <div className='posts__form'>
                     <label htmlFor="post-create">Message</label><br />
                     <textarea
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         type="textarea"
                         id='post-create'
                         name='post'
@@ -111,8 +110,7 @@ const PostCreate = (props) => {
                         ref={picture}
                     /><br />
                     <label htmlFor="post-create_picture"
-                        // className='btn-primary disp-inl-block'
-                        className={`${handleDarkTheme()} disp-inl-block`}
+                        className={`${btnTheme} disp-inl-block`}
                     >Ajouter une image</label><br /><br />
                 </div>
                 {
@@ -124,7 +122,7 @@ const PostCreate = (props) => {
                     </div>
                 }
                 <button
-                    className={handleDarkTheme()}
+                    className={btnTheme}
                     type='submit'>Publier</button>
             </form >
         </div >

@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState } from "react";
 
 export const ThemeContext = createContext();
 
@@ -10,34 +10,27 @@ const ThemeContextProvider = (props) => {
         setTheme(theme => !theme)
     };
 
-
-    const handleInputDark = (theme) => {
-
-        const inputElt = document.body.getElementsByTagName('input')
-        for (let item of inputElt) {
-            if (theme)
-                item.classList.add('textarea-dark')
-            else
-                item.classList.remove('textarea-dark')
-        }
-    }
-
-    useEffect(() => {
-        handleInputDark(theme)
-    }, [theme])
+    const handleDarkTheme = {
+        btnTheme: theme ? 'btn-primary-dark' : "btn-primary",
+        navTheme: theme ? "dark-nav" : "nav-color",
+        formTheme: theme ? 'posts__container-dark' : 'form_1-color',
+        connectTheme: theme && 'connect-dark',
+        avatarTheme: theme && 'avatar-dark',
+        btnTxtTheme: theme ? "Light" : "Dark",
+        textareaTheme: theme && "textarea-dark",
+        postTheme: theme && 'posts__container-dark'
+    };
 
 
     if (theme) {
         document.body.classList.add('dark_body');
-        // document.getElementsByClassName('posts__container').add('dark_body')
     } else {
         document.body.classList.remove('dark_body');
-        // document.getElementsByClassName('posts__container').remove('dark_body')
 
     }
 
     return (
-        < ThemeContext.Provider value={{ theme, toggleTheme }} >
+        < ThemeContext.Provider value={{ theme, toggleTheme, handleDarkTheme }} >
             {props.children}
         </ThemeContext.Provider>
     )

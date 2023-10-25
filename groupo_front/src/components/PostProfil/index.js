@@ -4,13 +4,15 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 
 const PostProfil = ({ item }) => {
 
-    const { theme } = useContext(ThemeContext);
+    const { handleDarkTheme } = useContext(ThemeContext);
+
+    const { avatarTheme } = handleDarkTheme;
 
     return (
         <div className='posts__profil'>
             <div>
                 <div
-                    className={`posts__avatar ${theme && 'avatar-dark'}`}
+                    className={`posts__avatar ${avatarTheme}`}
                 >
                     <img src={item.user_picture} alt="avatar" />
                 </div>

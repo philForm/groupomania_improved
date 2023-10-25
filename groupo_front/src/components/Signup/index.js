@@ -11,7 +11,9 @@ const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
  */
 const Signup = (props) => {
 
-    const { theme } = useContext(ThemeContext);
+    const { handleDarkTheme } = useContext(ThemeContext);
+
+    const { textareaTheme, btnTheme } = handleDarkTheme
 
     const [validInput, setValidInput] = useState({
         bool: true,
@@ -158,7 +160,7 @@ const Signup = (props) => {
                     <input
                         ref={firstName}
                         id='signup_firstname'
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         name='firtName'
                         type="text"
                         placeholder="Prénom"
@@ -170,7 +172,7 @@ const Signup = (props) => {
                     <label htmlFor='signup_lastname'>Nom</label>
                     <input
                         ref={lastName}
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         required
                         id='signup_lastname'
                         name='lastName'
@@ -182,7 +184,7 @@ const Signup = (props) => {
                 <div className='disp_flex_column'>
                     <label htmlFor='signup_email'>Email</label>
                     <input
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         ref={email}
                         id='signup_email'
 
@@ -201,7 +203,7 @@ const Signup = (props) => {
                     <input
                         ref={password}
                         id='signup_pass'
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         type="password"
                         name='password'
                         placeholder="Mot de passe"
@@ -216,7 +218,7 @@ const Signup = (props) => {
                     <input
                         ref={passwordConfirm}
                         id='signup_pass_confirm'
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         type="password"
                         name='password-confirm'
                         placeholder="Confirmation du mot de passe"
@@ -226,7 +228,7 @@ const Signup = (props) => {
                     </ span>
                 </div>
                 <button
-                    className={theme ? 'btn-primary-dark' : 'btn-primary'}
+                    className={btnTheme}
                     type="submit"
                 >Inscription</button>
             </form>

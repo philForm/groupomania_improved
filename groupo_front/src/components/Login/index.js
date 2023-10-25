@@ -12,7 +12,9 @@ import { ThemeContext } from '../../contexts/ThemeContext';
  */
 const Login = () => {
 
-    const { theme } = useContext(ThemeContext)
+    const { handleDarkTheme } = useContext(ThemeContext);
+
+    const { textareaTheme, btnTheme } = handleDarkTheme;
 
     const navigate = useNavigate();
 
@@ -57,7 +59,7 @@ const Login = () => {
                     <input
                         ref={email}
                         id='connect_email'
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         type="email"
                         name='email'
                         placeholder="Email"
@@ -70,7 +72,7 @@ const Login = () => {
                     <input
                         ref={password}
                         id="connect_pass"
-                        className={theme && "textarea-dark"}
+                        className={textareaTheme}
                         type="password"
                         placeholder="Mot de passe"
                         autocomplete="new-password"
@@ -80,7 +82,7 @@ const Login = () => {
                 <div className='login_error'>
                     <span type="invalid" ref={errorMsg} />
                     <button
-                        className={theme ? 'btn-primary-dark' : 'btn-primary'}
+                        className={btnTheme}
                         type="submit"
                     >Connexion</button>
                 </div>
