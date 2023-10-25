@@ -1,7 +1,7 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { requiredForm } from '../../functions/users_functions.js';
 import { accountService } from '../../services/account.service.js';
-import { ThemeContext } from '../../contexts/ThemeContext.js';
+import { useTheme } from '../../hooks/useTheme.js';
 
 const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 
@@ -11,9 +11,8 @@ const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
  */
 const Signup = (props) => {
 
-    const { handleDarkTheme } = useContext(ThemeContext);
 
-    const { textareaTheme, btnTheme } = handleDarkTheme
+    const { textareaTheme, btnTheme } = useTheme();
 
     const [validInput, setValidInput] = useState({
         bool: true,

@@ -1,11 +1,8 @@
-import React, { useContext } from 'react'
-import { ThemeContext } from '../../contexts/ThemeContext';
+import { useTheme } from '../../hooks/useTheme';
 
 const PostModifDelete = ({ item, toggle, postdel }) => {
 
-    const { handleDarkTheme } = useContext(ThemeContext);
-
-    const { btnTheme } = handleDarkTheme;
+    const { btnTheme } = useTheme();
 
     return (
         <div className='posts__modif'>

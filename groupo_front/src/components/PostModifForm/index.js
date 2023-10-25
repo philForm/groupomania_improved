@@ -1,11 +1,8 @@
-import { useContext } from "react";
-import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 
 const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, picture, image }) => {
 
-    const { handleDarkTheme } = useContext(ThemeContext);
-
-    const { btnTheme, postTheme, textareaTheme } = handleDarkTheme;
+    const { btnTheme, postTheme, textareaTheme } = useTheme();
 
 
     return (

@@ -10,17 +10,6 @@ const ThemeContextProvider = (props) => {
         setTheme(theme => !theme)
     };
 
-    const handleDarkTheme = {
-        btnTheme: theme ? 'btn-primary-dark' : "btn-primary",
-        navTheme: theme ? "dark-nav" : "nav-color",
-        formTheme: theme ? 'posts__container-dark' : 'form_1-color',
-        connectTheme: theme && 'connect-dark',
-        avatarTheme: theme && 'avatar-dark',
-        btnTxtTheme: theme ? "Light" : "Dark",
-        textareaTheme: theme && "textarea-dark",
-        postTheme: theme && 'posts__container-dark'
-    };
-
 
     if (theme) {
         document.body.classList.add('dark_body');
@@ -30,7 +19,7 @@ const ThemeContextProvider = (props) => {
     }
 
     return (
-        < ThemeContext.Provider value={{ theme, toggleTheme, handleDarkTheme }} >
+        < ThemeContext.Provider value={{ theme, toggleTheme }} >
             {props.children}
         </ThemeContext.Provider>
     )

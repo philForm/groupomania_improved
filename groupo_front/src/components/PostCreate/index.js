@@ -1,7 +1,7 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { tokenService } from '../../services/storage.service';
 import { accountService } from '../../services/account.service';
-import { ThemeContext } from '../../contexts/ThemeContext';
+import { useTheme } from '../../hooks/useTheme';
 
 /**
  * Création de Posts
@@ -13,9 +13,7 @@ const PostCreate = (props) => {
         filepreview: null,
     });
 
-    const { handleDarkTheme } = useContext(ThemeContext);
-
-    const { btnTheme, textareaTheme, postTheme } = handleDarkTheme;
+    const { btnTheme, textareaTheme, postTheme } = useTheme();
 
 
     const post = useRef();

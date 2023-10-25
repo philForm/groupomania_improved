@@ -5,16 +5,14 @@ import { tokenService } from '../../services/storage.service';
 
 import "./login.css";
 import { accountService } from '../../services/account.service';
-import { ThemeContext } from '../../contexts/ThemeContext';
+import { useTheme } from '../../hooks/useTheme';
 
 /**
  * Formulaire de connexion :
  */
 const Login = () => {
 
-    const { handleDarkTheme } = useContext(ThemeContext);
-
-    const { textareaTheme, btnTheme } = handleDarkTheme;
+    const { textareaTheme, btnTheme } = useTheme();
 
     const navigate = useNavigate();
 

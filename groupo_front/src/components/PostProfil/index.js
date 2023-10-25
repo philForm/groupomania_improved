@@ -1,12 +1,9 @@
-import { useContext } from "react";
 import { dateFormat } from "../../functions/utils";
-import { ThemeContext } from "../../contexts/ThemeContext";
+import { useTheme } from "../../hooks/useTheme";
 
 const PostProfil = ({ item }) => {
 
-    const { handleDarkTheme } = useContext(ThemeContext);
-
-    const { avatarTheme } = handleDarkTheme;
+    const { avatarTheme } = useTheme();
 
     return (
         <div className='posts__profil'>

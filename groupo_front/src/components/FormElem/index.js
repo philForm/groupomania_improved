@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useRef, useState } from "react";
 import Signup from "../Signup";
 import Login from "../Login";
 
-import { ThemeContext } from "../../contexts/ThemeContext";
 import './formElem.css'
+import { useTheme } from "../../hooks/useTheme";
 
 /**
  * Formulaires d'enregistrement et de connexion :
@@ -13,9 +13,7 @@ const FormElem = () => {
     const [displaySignup, setDisplaySignup] = useState(false);
     const [displayLogin, setDisplayLogin] = useState(true);
 
-    const { handleDarkTheme, theme } = useContext(ThemeContext);
-
-    const { formTheme } = handleDarkTheme;
+    const { formTheme, theme } = useTheme();
 
     const signup = useRef();
     const login = useRef();

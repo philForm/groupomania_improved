@@ -1,12 +1,12 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import "../FormElem/formElem.css";
 // import "../Home/home.css";
 import { tokenService } from '../../services/storage.service';
 import { accountService } from '../../services/account.service';
-import { ThemeContext } from '../../contexts/ThemeContext';
 
 import "./profil.css";
+import { useTheme } from '../../hooks/useTheme';
 
 /**
  * Change ou ajoute l'image d'avatar au profil utilisateur :
@@ -21,7 +21,7 @@ const Profil = () => {
         filepreview: null,
     });
 
-    const { theme } = useContext(ThemeContext);
+    const { btnTheme, formTheme } = useTheme()
 
     const avatar = useRef();
 
@@ -46,9 +46,6 @@ const Profil = () => {
             });
         }
     };
-
-    const handleDarkThemeBtn = () => theme ? 'btn-primary-dark' : 'btn-primary';
-    const handleDarkThemeForm = () => theme ? 'posts__container-dark' : 'form_1-color';
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -110,7 +107,7 @@ const Profil = () => {
 
     return (
         <div className='App'>
-            <div className={`form_1 ${handleDarkThemeForm()}`}>
+            <div className={`form_1 ${formTheme}`}>
                 <h2>Ajouter une image à votre profil</h2>
                 <form noValidate onSubmit={handleSubmit} name="profil_form" >
                     <div className='disp_flex_column'>
@@ -127,7 +124,7 @@ const Profil = () => {
                         />
                         <label
                             htmlFor='profil_avatar'
-                            className={handleDarkThemeBtn()}
+                            className={btnTheme}
                         >Choisissez un nouvel avatar</label>
                         {logo.filepreview !== null &&
                             <div className='profil_preview'>
@@ -138,12 +135,12 @@ const Profil = () => {
                         }
                     </div>
                     <button
-                        className={handleDarkThemeBtn()}
+                        className={btnTheme}
                         type="submit"
                     >Ajouter ou changer votre avatar
                     </button>
                     <button
-                        className={handleDarkThemeBtn()}
+                        className={btnTheme}
                         onClick={redirection}
                     >Annuler
                     </button>

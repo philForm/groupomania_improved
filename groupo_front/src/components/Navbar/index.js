@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { tokenService } from "../../services/storage.service";
@@ -6,9 +6,8 @@ import { tokenService } from "../../services/storage.service";
 import logo from "../../assets/logo_groupomania_navbar.png";
 import shut from "../../assets/button-icon-shut-cliparts.png";
 
-import { ThemeContext } from "../../contexts/ThemeContext";
-
 import "./navbar.css";
+import { useTheme } from "../../hooks/useTheme";
 
 /**
  * Barre de navigation :
@@ -20,7 +19,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const { toggleTheme, handleDarkTheme } = useContext(ThemeContext);
+  const { navTheme, btnTheme, connectTheme, avatarTheme, btnTxtTheme, toggleTheme } = useTheme();
 
   const [logged, setLogged] = useState(false);
   // eslint-disable-next-line no-unused-vars
@@ -48,15 +47,15 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixe nav nav__pad nav__height ${handleDarkTheme.navTheme}`}
+      className={`fixe nav nav__pad nav__height ${navTheme}`}
     >
       <div className="nav__logo">
         <img src={logo} alt="logo" className="logo App-logo" />
 
         <button
-          className={handleDarkTheme.btnTheme}
+          className={btnTheme}
           onClick={() => toggleTheme()}
-        >{handleDarkTheme.btnTxtTheme}
+        >{btnTxtTheme}
         </button>
 
       </div>
@@ -65,10 +64,10 @@ const Navbar = () => {
       >
         {isLogged(logged) ? (
           <div
-            className={`connect ${handleDarkTheme.connectTheme}`}
+            className={`connect ${connectTheme}`}
             ref={deconnect}>
             <div
-              className={`nav__avatar ${handleDarkTheme.avatarTheme}`}
+              className={`nav__avatar ${avatarTheme}`}
             >
               <Link to={"/form/profil"}>
                 <img
