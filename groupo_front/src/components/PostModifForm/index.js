@@ -10,7 +10,7 @@ const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, pictur
 
     return (
         <div
-            className={theme ? 'posts__container posts__container-dark' : 'posts__container'}
+            className={`posts__container ${theme && 'posts__container-dark'}`}
         >
             <form onSubmit={(e) => postUpdate(item.id, e)} ref={form}>
                 <div className='posts__form'>

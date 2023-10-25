@@ -1,10 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../FormElem/formElem.css";
-import "../Home/home.css";
-import "./profil.css";
+// import "../FormElem/formElem.css";
+// import "../Home/home.css";
 import { tokenService } from '../../services/storage.service';
 import { accountService } from '../../services/account.service';
+import { ThemeContext } from '../../contexts/ThemeContext';
+
+import "./profil.css";
 
 /**
  * Change ou ajoute l'image d'avatar au profil utilisateur :
@@ -18,6 +20,8 @@ const Profil = () => {
         file: [],
         filepreview: null,
     });
+
+    const { theme } = useContext(ThemeContext);
 
     const avatar = useRef();
 
@@ -43,6 +47,8 @@ const Profil = () => {
         }
     };
 
+    const handleDarkThemeBtn = () => theme ? 'btn-primary-dark' : 'btn-primary';
+    const handleDarkThemeForm = () => theme ? 'posts__container-dark' : 'form_1-color';
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -100,12 +106,11 @@ const Profil = () => {
         catch (error) {
             console.error(error);
         };
-
     };
 
     return (
         <div className='App'>
-            <div className="form_1">
+            <div className={`form_1 ${handleDarkThemeForm()}`}>
                 <h2>Ajouter une image à votre profil</h2>
                 <form noValidate onSubmit={handleSubmit} name="profil_form" >
                     <div className='disp_flex_column'>
@@ -120,7 +125,10 @@ const Profil = () => {
                             aria-describedby="inputGroupPrepend"
                             required
                         />
-                        <label htmlFor='profil_avatar' className='btn-primary'>Choisissez un nouvel avatar</label>
+                        <label
+                            htmlFor='profil_avatar'
+                            className={handleDarkThemeBtn()}
+                        >Choisissez un nouvel avatar</label>
                         {logo.filepreview !== null &&
                             <div className='profil_preview'>
                                 <img
@@ -128,15 +136,16 @@ const Profil = () => {
                                     alt="UploadImage" />
                             </div>
                         }
-
                     </div>
                     <button
-                        className='btn-primary'
-                        type="submit">Ajouter ou changer votre avatar
+                        className={handleDarkThemeBtn()}
+                        type="submit"
+                    >Ajouter ou changer votre avatar
                     </button>
                     <button
+                        className={handleDarkThemeBtn()}
                         onClick={redirection}
-                        className='btn-primary'>Annuler
+                    >Annuler
                     </button>
                 </form>
             </div>

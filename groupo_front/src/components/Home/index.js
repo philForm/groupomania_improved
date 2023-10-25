@@ -14,9 +14,7 @@ function Home() {
 
   const [data, setData] = useState([]);
 
-  const { theme } = useContext(ThemeContext);
-
-  console.log(theme)
+  // const { theme } = useContext(ThemeContext);
 
   const userId = tokenService.idCompare();
 

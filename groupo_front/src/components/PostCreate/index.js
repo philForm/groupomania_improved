@@ -88,7 +88,7 @@ const PostCreate = (props) => {
 
     return (
         <div
-            className={theme ? 'posts__container posts__container-dark' : 'posts__container'}
+            className={`posts__container ${theme && 'posts__container-dark'}`}
         >
             <form onSubmit={handleSubmit} ref={form} name="post-create_form">
                 <div className='posts__form'>

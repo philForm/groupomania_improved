@@ -50,13 +50,11 @@ const Navbar = () => {
     setToggle(toggle => !toggle)
   }
 
-  const handleDarkTheme = () =>
-    theme ? 'btn-primary-dark' : "btn-primary";
+  const handleDarkTheme = () => theme ? 'btn-primary-dark' : "btn-primary";
 
   return (
     <div
-      className={theme ? "fixe nav nav__pad nav__height dark-nav" :
-        "fixe nav nav__pad nav__height"}
+      className={`fixe nav nav__pad nav__height ${theme ? "dark-nav" : "nav-color"}`}
     >
       <div className="nav__logo">
         <img src={logo} alt="logo" className="logo App-logo" />
@@ -73,10 +71,10 @@ const Navbar = () => {
       >
         {isLogged(logged) ? (
           <div
-            className={theme ? "connect connect-dark" : 'connect'}
+            className={`connect ${theme && 'connect-dark'}`}
             ref={deconnect}>
             <div
-              className={theme ? 'nav__avatar avatar-dark' : 'nav__avatar'}
+              className={`nav__avatar ${theme && 'avatar-dark'}`}
             >
               <Link to={"/form/profil"}>
                 <img

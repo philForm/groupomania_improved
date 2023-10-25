@@ -10,7 +10,7 @@ const PostProfil = ({ item }) => {
         <div className='posts__profil'>
             <div>
                 <div
-                    className={theme ? 'posts__avatar avatar-dark' : 'posts__avatar'}
+                    className={`posts__avatar ${theme && 'avatar-dark'}`}
                 >
                     <img src={item.user_picture} alt="avatar" />
                 </div>

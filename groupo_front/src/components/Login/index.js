@@ -1,15 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { tokenService } from '../../services/storage.service';
 
 import "./login.css";
 import { accountService } from '../../services/account.service';
+import { ThemeContext } from '../../contexts/ThemeContext';
 
 /**
  * Formulaire de connexion :
  */
 const Login = () => {
+
+    const { theme } = useContext(ThemeContext)
 
     const navigate = useNavigate();
 
@@ -51,12 +54,14 @@ const Login = () => {
             <form noValidate onSubmit={handleSubmit}>
                 <div className='disp_flex_column'>
                     <label htmlFor='connect_email'>Email</label>
-                    <input className=''
+                    <input
                         ref={email}
                         id='connect_email'
+                        className={theme && "textarea-dark"}
                         type="email"
                         name='email'
                         placeholder="Email"
+                        autocomplete="off"
                         required
                     />
                 </div>
@@ -65,14 +70,19 @@ const Login = () => {
                     <input
                         ref={password}
                         id="connect_pass"
+                        className={theme && "textarea-dark"}
                         type="password"
                         placeholder="Mot de passe"
+                        autocomplete="new-password"
                         required
                     />
                 </div>
                 <div className='login_error'>
                     <span type="invalid" ref={errorMsg} />
-                    <button className='btn-primary' type="submit">Connexion</button>
+                    <button
+                        className={theme ? 'btn-primary-dark' : 'btn-primary'}
+                        type="submit"
+                    >Connexion</button>
                 </div>
             </form>
         </div>

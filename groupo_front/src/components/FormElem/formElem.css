@@ -17,7 +17,7 @@
     -ms-flex-align: center;
     align-items: center;
     font-size: 1.2rem;
-    background-color: var(--quaternary-color);
+    /* background-color: var(--quaternary-color); */
     width: 80%;
     max-width: 400px;
     margin: auto;
@@ -25,6 +25,10 @@
     border-radius: 10px;
     margin-bottom: 50px;
     gap: 10px;
+}
+
+.form_1-color {
+    background-color: var(--quaternary-color);
 }
 
 @media all and (max-width: 768px) {

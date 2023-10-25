@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const ThemeContext = createContext();
 
@@ -9,6 +9,23 @@ const ThemeContextProvider = (props) => {
     const toggleTheme = () => {
         setTheme(theme => !theme)
     };
+
+
+    const handleInputDark = (theme) => {
+
+        const inputElt = document.body.getElementsByTagName('input')
+        for (let item of inputElt) {
+            if (theme)
+                item.classList.add('textarea-dark')
+            else
+                item.classList.remove('textarea-dark')
+        }
+    }
+
+    useEffect(() => {
+        handleInputDark(theme)
+    }, [theme])
+
 
     if (theme) {
         document.body.classList.add('dark_body');

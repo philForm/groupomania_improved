@@ -34,6 +34,7 @@
   --button-shadow: #c27017;
 
   --dark-nav: #4c6798;
+  --dark-nav-focus: #1f3253;
   --avatar-shadow: 1px 0px 5px 2px #ffeb3b;
 }
 
@@ -225,7 +226,51 @@ Form.Group {
   display: inline-block;
 }
 
+/* ==================================================== */
+/* Thème DARK : classes injectées
+/* ==================================================== */
+
 .dark_body {
   background-color: #07080a;
   color: #fffbd4;
+  transition:
+    color 0.4s ease-in-out,
+    background-color 0.4s ease-in-out;
+}
+
+.dark-nav {
+  background-color: var(--dark-nav);
+  transition: background-color 0.4s ease-in-out;
+}
+
+.avatar-dark {
+  box-shadow: var(--avatar-shadow);
+  transition: box-shadow 0.4s ease-in-out;
+}
+
+.connect-dark,
+.posts__container-dark {
+  background-color: var(--tertiary-color);
+  transition:
+    color 0.4s ease-in-out,
+    background-color 0.4s ease-in-out;
+}
+
+.textarea-dark {
+  background-color: var(--dark-nav);
+  color: aliceblue;
+  transition:
+    color 0.4s ease-in-out,
+    background-color 0.4s ease-in-out;
+}
+
+form .textarea-dark:focus {
+  outline-style: initial;
+  outline-color: red;
+  background-color: #1f3253;
+  /* border: 2px solid red; */
+}
+
+form .textarea-dark::placeholder {
+  color: #879bc0;
 }

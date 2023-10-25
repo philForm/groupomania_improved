@@ -7,8 +7,9 @@ import PostProfil from '../PostProfil';
 import PostModifDelete from '../PostModifDelete';
 import PostModifForm from '../PostModifForm';
 
-import "./posts.css";
 import { ThemeContext } from '../../contexts/ThemeContext';
+
+import "./posts.css";
 
 /**
  * Publication et modification de posts :
@@ -127,7 +128,7 @@ const Posts = ({ data, fetchData }) => {
         <Fragment>
             {data.map(item => (
                 <div key={item.id}
-                    className={theme ? 'posts__container posts__container-dark' : 'posts__container '}
+                    className={`posts__container ${theme && 'posts__container-dark'}`}
                     id={`${item.id}`} data-id={`${item.id}`}
                     ref={contain}
                 >
@@ -155,7 +156,7 @@ const Posts = ({ data, fetchData }) => {
                         }
                     </div>
                     <div
-                        className={theme ? 'posts__post textarea-dark' : 'posts__post'}
+                        className={`posts__post ${theme && 'textarea-dark'}`}
                     >
                         {item.post}
                     </div>

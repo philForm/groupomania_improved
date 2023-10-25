@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { requiredForm } from '../../functions/users_functions.js';
 import { accountService } from '../../services/account.service.js';
+import { ThemeContext } from '../../contexts/ThemeContext.js';
 
 const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 
@@ -9,6 +10,8 @@ const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
  * Enregistre un utilisateur : 
  */
 const Signup = (props) => {
+
+    const { theme } = useContext(ThemeContext);
 
     const [validInput, setValidInput] = useState({
         bool: true,
@@ -147,7 +150,7 @@ const Signup = (props) => {
     };
 
     return (
-        <div className='form'>
+        <div className={`form`}>
             <h2>Enregistrement</h2>
             <form id="form" noValidate onSubmit={handleSubmit} ref={formVerif} name="signup_form">
                 <div className='disp_flex_column'>
@@ -155,6 +158,7 @@ const Signup = (props) => {
                     <input
                         ref={firstName}
                         id='signup_firstname'
+                        className={theme && "textarea-dark"}
                         name='firtName'
                         type="text"
                         placeholder="Prénom"
@@ -166,6 +170,7 @@ const Signup = (props) => {
                     <label htmlFor='signup_lastname'>Nom</label>
                     <input
                         ref={lastName}
+                        className={theme && "textarea-dark"}
                         required
                         id='signup_lastname'
                         name='lastName'
@@ -176,12 +181,15 @@ const Signup = (props) => {
                 </div>
                 <div className='disp_flex_column'>
                     <label htmlFor='signup_email'>Email</label>
-                    <input className=''
+                    <input
+                        className={theme && "textarea-dark"}
                         ref={email}
                         id='signup_email'
+
                         type="email"
                         name='email'
                         placeholder="Email"
+                        autocomplete="off"
                         required
                     />
                     <span type="invalid" ref={emailControl}>
@@ -193,9 +201,11 @@ const Signup = (props) => {
                     <input
                         ref={password}
                         id='signup_pass'
+                        className={theme && "textarea-dark"}
                         type="password"
                         name='password'
                         placeholder="Mot de passe"
+                        autocomplete="new-password"
                         required />
                     <span type="invalid" ref={valid} >
                         {/* {verifPassword.text.valid} */}
@@ -206,6 +216,7 @@ const Signup = (props) => {
                     <input
                         ref={passwordConfirm}
                         id='signup_pass_confirm'
+                        className={theme && "textarea-dark"}
                         type="password"
                         name='password-confirm'
                         placeholder="Confirmation du mot de passe"
@@ -214,7 +225,10 @@ const Signup = (props) => {
                         {/* {verifPassword.text.validConfirm} */}
                     </ span>
                 </div>
-                <button className='btn-primary' type="submit">Inscription</button>
+                <button
+                    className={theme ? 'btn-primary-dark' : 'btn-primary'}
+                    type="submit"
+                >Inscription</button>
             </form>
         </div>
     );

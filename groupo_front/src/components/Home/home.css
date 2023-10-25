@@ -18,13 +18,6 @@
         background-color 0.4s ease-in-out;
 }
 
-.posts__container-dark {
-    background-color: var(--tertiary-color);
-    transition:
-        color 0.4s ease-in-out,
-        background-color 0.4s ease-in-out;
-}
-
 .posts__img img {
     width: 100%;
 }
@@ -121,14 +114,6 @@ form textarea {
         background-color 0.4s ease-in-out;
 }
 
-.textarea-dark {
-    background-color: cornflowerblue;
-    color: aliceblue;
-    transition:
-        color 0.4s ease-in-out,
-        background-color 0.4s ease-in-out;
-}
-
 form input {
     height: 22px;
     border-radius: 4px;
@@ -150,6 +135,15 @@ input[type="file"] {
     height: 30px;
     padding: 6px;
     width: 80%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    -webkit-text-fill-color: #000;
+    -webkit-box-shadow: 0 0 0px 1000px rgb(232, 240, 254) inset;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 .posts_preview {
