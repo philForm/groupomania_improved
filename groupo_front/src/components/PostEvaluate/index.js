@@ -1,4 +1,4 @@
-import { accountService } from "../../services/account.service";
+import { accountService } from "@/services/account.service";
 
 const PostEvaluate = ({ token, item }) => {
 

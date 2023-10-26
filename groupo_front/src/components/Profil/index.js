@@ -1,12 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import "../FormElem/formElem.css";
-// import "../Home/home.css";
-import { tokenService } from '../../services/storage.service';
-import { accountService } from '../../services/account.service';
+import { tokenService } from '@/services/storage.service';
+import { accountService } from '@/services/account.service';
 
-import "./profil.css";
-import { useTheme } from '../../hooks/useTheme';
+import { useTheme } from '@/hooks/useTheme';
+import "@/components/Profil/profil.css";
 
 /**
  * Change ou ajoute l'image d'avatar au profil utilisateur :

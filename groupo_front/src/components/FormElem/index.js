@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import Signup from "../Signup";
-import Login from "../Login";
-
-import './formElem.css'
-import { useTheme } from "../../hooks/useTheme";
+import Signup from "@/components/Signup";
+import Login from "@/components/Login";
+import { useTheme } from "@/hooks/useTheme";
+import '@/components/FormElem/formElem.css'
 
 /**
  * Formulaires d'enregistrement et de connexion :

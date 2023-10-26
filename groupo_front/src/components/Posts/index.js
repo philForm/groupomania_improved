@@ -1,15 +1,15 @@
 import React, { useState, Fragment, useRef, useContext } from 'react';
-import { tokenService } from '../../services/storage.service';
-import { accountService } from '../../services/account.service';
+import { tokenService } from '@/services/storage.service';
+import { accountService } from '@/services/account.service';
 
-import PostEvaluate from '../PostEvaluate';
-import PostProfil from '../PostProfil';
-import PostModifDelete from '../PostModifDelete';
-import PostModifForm from '../PostModifForm';
+import PostEvaluate from '@/components/PostEvaluate';
+import PostProfil from '@/components/PostProfil';
+import PostModifDelete from '@/components/PostModifDelete';
+import PostModifForm from '@/components/PostModifForm';
 
-import { ThemeContext } from '../../contexts/ThemeContext';
+import { ThemeContext } from '@/contexts/ThemeContext';
 
-import "./posts.css";
+import "@/components/Posts/posts.css";
 
 /**
  * Publication et modification de posts :

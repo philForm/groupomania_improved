@@ -10,7 +10,6 @@ const ThemeContextProvider = (props) => {
         setTheme(theme => !theme)
     };
 
-
     if (theme) {
         document.body.classList.add('dark_body');
     } else {

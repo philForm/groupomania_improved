@@ -7,7 +7,7 @@ const saveToken = (token) => {
 };
 
 /**
- * Retire le token du localStorage lors de la deconnexion :
+ * Retire le token du localStorage lors de la déconnexion :
  */
 const logOut = () => {
     localStorage.removeItem("token");

@@ -1,11 +1,9 @@
-import React, { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { tokenService } from '../../services/storage.service';
-
-import "./login.css";
-import { accountService } from '../../services/account.service';
-import { useTheme } from '../../hooks/useTheme';
+import { tokenService } from '@/services/storage.service';
+import { accountService } from '@/services/account.service';
+import { useTheme } from '@/hooks/useTheme';
+import "@/components/Login/login.css";
 
 /**
  * Formulaire de connexion :

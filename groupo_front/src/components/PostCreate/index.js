@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { tokenService } from '../../services/storage.service';
-import { accountService } from '../../services/account.service';
-import { useTheme } from '../../hooks/useTheme';
+import { tokenService } from '@/services/storage.service';
+import { accountService } from '@/services/account.service';
+import { useTheme } from '@/hooks/useTheme';
 
 /**
  * Création de Posts

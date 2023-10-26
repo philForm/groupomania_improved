@@ -1,4 +1,4 @@
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "@/hooks/useTheme";
 
 const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, picture, image }) => {
 

@@ -1,4 +1,4 @@
-import Axios from "./caller.service";
+import Axios from "@/services/caller.service";
 
 const login = (credentials) => {
     return Axios.post('api/auth/login', credentials);

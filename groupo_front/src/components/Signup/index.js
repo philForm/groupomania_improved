@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { requiredForm } from '../../functions/users_functions.js';
-import { accountService } from '../../services/account.service.js';
-import { useTheme } from '../../hooks/useTheme.js';
+import { requiredForm } from '@/functions/users_functions.js';
+import { accountService } from '@/services/account.service.js';
+import { useTheme } from '@/hooks/useTheme.js';
 
 const regexEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 

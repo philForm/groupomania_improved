@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
-import PostCreate from "../PostCreate";
-import Posts from "../Posts";
+import PostCreate from "@/components/PostCreate";
+import Posts from "@/components/Posts";
 
-import { tokenService } from "../../services/storage.service";
-import { accountService } from "../../services/account.service";
+import { tokenService } from "@/services/storage.service";
+import { accountService } from "@/services/account.service";
 
-import "./home.css";
+import "@/components/Home/home.css";
 
 /**
  * Création et listage de tous les posts :
  */
-function Home() {
+const Home = () => {
 
   const [data, setData] = useState([]);
-
 
   const userId = tokenService.idCompare();
 

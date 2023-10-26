@@ -18,8 +18,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "starto": "craco start",
     "build": "react-scripts build",
+    "buildo": "craco build",
     "test": "react-scripts test",
+    "testo": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
     "dotenv": "^10.0.0"
   }
 }

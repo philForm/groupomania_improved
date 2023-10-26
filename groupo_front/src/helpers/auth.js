@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { tokenService } from "../services/service";
+import { tokenService } from "@/services/service";
 
 const AuthGuard = ({ children }) => {
 

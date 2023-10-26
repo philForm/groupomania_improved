@@ -1,5 +1,5 @@
-import { dateFormat } from "../../functions/utils";
-import { useTheme } from "../../hooks/useTheme";
+import { dateFormat } from "@/functions/utils";
+import { useTheme } from "@/hooks/useTheme";
 
 const PostProfil = ({ item }) => {
 
