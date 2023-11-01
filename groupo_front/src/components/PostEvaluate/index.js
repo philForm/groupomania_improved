@@ -2,6 +2,8 @@ import { accountService } from "@/services/account.service";
 
 const PostEvaluate = ({ token, item }) => {
 
+    console.log(item);
+
     /**
     * Evaluation des posts :
     * @param {number} postId
@@ -20,7 +22,7 @@ const PostEvaluate = ({ token, item }) => {
                 document.getElementById("like0_" + res.data.post_id).textContent = res.data.like0;
             }).catch(err => {
                 console.log(err.response.statusText);
-                document.getElementById(`error_${postId}`).textContent = "Vous n'êtes pas connecté !";
+                document.getElementById(`error_${postId}`).textContent = "Vous n'êtes pas connectés !";
                 document.getElementById(`error_${postId}`).classList.add("my_red");
             })
     };

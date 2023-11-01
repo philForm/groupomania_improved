@@ -7,7 +7,9 @@ import Navbar from '@/components/Navbar';
 import FormElem from '@/components/FormElem';
 import "normalize.css";
 import '@/index.css';
-import ThemeContextProvider from './contexts/ThemeContext';
+
+import ThemeContextProvider from '@/contexts/ThemeContext';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
