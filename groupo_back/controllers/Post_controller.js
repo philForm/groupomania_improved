@@ -299,10 +299,10 @@ const postLiked = async (req, res, next) => {
             );
 
         }
-        // Si l'utilisateur a déjà liked, on observe son vôte dans la BDD :
+        // Si l'utilisateur a déjà liked, on observe son vote dans la BDD :
         else {
 
-            // Si le vôte de la BDD est différent du nouveau vôte, on modifie dans la BDD, et on met à jour le décompte des like et dislike :
+            // Si le vote de la BDD est différent du nouveau vote, on modifie dans la BDD, et on met à jour le décompte des like et dislike :
             if (likeBdd.post_like.readInt8() !== like) {
 
                 await Db.query(`
@@ -316,7 +316,7 @@ const postLiked = async (req, res, next) => {
                 );
 
             }
-            // Si le vôte est identique, on supprime l'évaluation :
+            // Si le vote est identique, on supprime l'évaluation :
             else {
                 await Db.query(`
                     DELETE FROM likes 
@@ -337,7 +337,8 @@ const postLiked = async (req, res, next) => {
             ON A.post_id = B.post_id
             LEFT OUTER JOIN
             (SELECT COUNT(*) as like0, post_id FROM likes WHERE post_id=? AND post_like=0) C
-            ON A.post_id = C.post_id;`,
+            ON A.post_id = C.post_id;
+            `,
             {
                 replacements: [postId, postId, postId],
                 type: QueryTypes.SELECT
@@ -350,5 +351,35 @@ const postLiked = async (req, res, next) => {
     };
 };
 
+const sendEvaluationForOneUser = async (req, res, next) => {
 
-module.exports = { createPost, sendAllPosts, modifyPost, postUserFind, deletePost, postLiked };
+    const { userId } = req.body;
+
+    const postsEval = await Db.query(`
+        SELECT 
+        post_like  evaluation,
+        user_id  utilisateur,
+        post_id  post
+        FROM likes
+        WHERE user_id = ?;
+        `,
+        {
+            replacements: [userId],
+            type: QueryTypes.SELECT
+        }
+    )
+    res.send(postsEval);
+    // return postsEval
+
+};
+
+
+module.exports = {
+    createPost,
+    sendAllPosts,
+    modifyPost,
+    postUserFind,
+    deletePost,
+    postLiked,
+    sendEvaluationForOneUser
+};
