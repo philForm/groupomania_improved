@@ -15,6 +15,7 @@ const Home = () => {
   const [data, setData] = useState([]);
 
   const userId = tokenService.idCompare();
+  const token = tokenService.recupToken();
 
   /**
    * Récupère dans la BDD les infos de l'utilisateur :
@@ -54,6 +55,43 @@ const Home = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+
+  const evalPost = async (userId) => {
+
+    const userIdObj = {
+      userId: userId
+    }
+
+    if (userIdObj && token) {
+      try {
+        await accountService.sendId(userIdObj, token)
+          .then((res) => {
+            if (res.status === 200) {
+              console.log(res.data)
+              console.log(res.data.length)
+              for (let item of res.data) {
+                if (item.evaluation.data[0] === 0) {
+                  document.getElementById(`thumb-down_${item.post}`).classList.add("evaluate");
+                }
+                if (item.evaluation.data[0] === 1) {
+                  document.getElementById(`thumb-up_${item.post}`).classList.add("evaluate");
+                }
+
+              }
+            }
+          })
+      }
+      catch (error) {
+        console.error(error);
+      };
+
+    }
+  }
+
+  // useEffect(() => {
+  evalPost(userId);
+  // }, [])
 
   return (
     <div className="App">

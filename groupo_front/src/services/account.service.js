@@ -29,6 +29,17 @@ const getId = (id) => {
     return Axios.get(`api/post/${id}`)
 };
 
+const sendId = (id, token) => {
+    return Axios.post(`api/post/like/eval`, id,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+    )
+}
+
 const createPost = (data, token) => {
     return Axios.post('api/post', data,
         {
@@ -73,5 +84,5 @@ const likePost = (likeObj, token) => {
 };
 
 export const accountService = {
-    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost
+    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost, sendId
 };

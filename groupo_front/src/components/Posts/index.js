@@ -16,6 +16,8 @@ import "@/components/Posts/posts.css";
  */
 const Posts = ({ data, fetchData }) => {
 
+
+
     const [displayId, setDisplayId] = useState(null);
     const [image, setImage] = useState({
         file: [],
@@ -160,7 +162,7 @@ const Posts = ({ data, fetchData }) => {
                     >
                         {item.post}
                     </div>
-                    <PostEvaluate token={token} item={item} />
+                    <PostEvaluate token={token} item={item} userId={userIdLocal} />
                 </div>
             )
             )}

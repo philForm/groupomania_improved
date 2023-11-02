@@ -13,17 +13,17 @@ import ThemeContextProvider from '@/contexts/ThemeContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ThemeContextProvider>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="/" element={< Home />} />
-          <Route path="/form" element={<FormElem />} />
-          <Route path="/form/profil" element={< Profil />} />
-        </Routes>
-      </Router>
-    </ThemeContextProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <ThemeContextProvider>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/" element={< Home />} />
+        <Route path="/form" element={<FormElem />} />
+        <Route path="/form/profil" element={< Profil />} />
+      </Routes>
+    </Router>
+  </ThemeContextProvider>
+  // </React.StrictMode>
 );
