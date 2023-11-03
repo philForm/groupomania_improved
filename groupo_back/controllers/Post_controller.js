@@ -369,7 +369,6 @@ const sendEvaluationForOneUser = async (req, res, next) => {
         }
     )
     res.send(postsEval);
-    // return postsEval
 
 };
 

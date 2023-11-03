@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { accountService } from "@/services/account.service";
 import "@/components/PostEvaluate/postEvaluate.css";
 
@@ -5,6 +6,14 @@ const PostEvaluate = ({ token, item, userId }) => {
 
     console.log(item);
     console.log(userId);
+
+    const like1Ref = useRef();
+    const like0Ref = useRef();
+    const errorRef = useRef();
+
+    const thumbUpRef = useRef();
+    const thumbDownRef = useRef();
+
 
     /**
     * Evaluation des posts :
@@ -18,61 +27,63 @@ const PostEvaluate = ({ token, item, userId }) => {
             postId: postId
         };
 
-        console.log(like)
-        like = parseInt(like)
-
         await accountService.likePost(likeObj, token)
             .then(res => {
-                console.log(res)
+                console.log(res);
 
-                const thumbUp = document.getElementById(`thumb-up_${res.data.post_id}`);
-                const thumbDown = document.getElementById(`thumb-down_${res.data.post_id}`);
+                like1Ref.current.textContent = res.data.like1;
+                like0Ref.current.textContent = res.data.like0;
 
-                document.getElementById("like1_" + res.data.post_id).textContent = res.data.like1;
-                document.getElementById("like0_" + res.data.post_id).textContent = res.data.like0;
+                const evaluateView = () => {
 
-                // Si like est + et on clique sur - , passe de like à dislike :
-                if (thumbUp.classList.contains("evaluate") && like === 0) {
-                    thumbUp.classList.remove("evaluate")
-                    thumbDown.classList.add("evaluate")
-                    console.log("passe de like à dislike")
-                }
-                // Si like est + et on clique sur + , retrait du like :
-                else if (thumbUp.classList.contains("evaluate") && like === 1) {
-                    thumbUp.classList.remove("evaluate")
-                    thumbDown.classList.remove("evaluate")
-                    console.log("retrait du like")
-                }
-                // Si like est - et on clique sur - , retrait du dislike :
-                else if (thumbDown.classList.contains("evaluate") && like === 0) {
-                    thumbDown.classList.remove("evaluate")
-                    console.log("retrait du dislike")
-                }
-                // Si like est - et on clique sur + , passe de dislike à like
-                else if (thumbDown.classList.contains("evaluate") && like === 1) {
-                    thumbDown.classList.remove("evaluate")
-                    thumbUp.classList.add("evaluate")
-                }
-                // Si aucun like et on clique sur + , passe à like :
-                else if ((
-                    !thumbDown.classList.contains("evaluate") &&
-                    !thumbUp.classList.contains("evaluate")
-                ) && like === 1) {
-                    thumbUp.classList.add("evaluate")
-                }
-                // Si aucun like et on clique sur - , passe à dislike :
-                else if ((
-                    !thumbDown.classList.contains("evaluate") &&
-                    !thumbUp.classList.contains("evaluate")
-                ) && like === 0) {
-                    thumbDown.classList.add("evaluate")
-                }
+                    const thumbUp = thumbUpRef.current;
+                    const thumbDown = thumbDownRef.current;
+                    const thumbUpContains = thumbUp.classList.contains("evaluate");
+                    const thumbDownContains = thumbDown.classList.contains("evaluate");
+
+                    // Si like est + et on clique sur - , passe de like à dislike :
+                    if (thumbUpContains && like === 0) {
+                        thumbUp.classList.remove("evaluate");
+                        thumbDown.classList.add("evaluate");
+                    }
+                    // Si like est + et on clique sur + , retrait du like :
+                    else if (thumbUpContains && like === 1) {
+                        thumbUp.classList.remove("evaluate");
+                        thumbDown.classList.remove("evaluate");
+                    }
+                    // Si like est - et on clique sur - , retrait du dislike :
+                    else if (thumbDownContains && like === 0) {
+                        thumbDown.classList.remove("evaluate");
+                    }
+                    // Si like est - et on clique sur + , passe de dislike à like :
+                    else if (thumbDownContains && like === 1) {
+                        thumbDown.classList.remove("evaluate");
+                        thumbUp.classList.add("evaluate");
+                    }
+                    // Si aucun like et on clique sur + , passe à like :
+                    else if ((
+                        !thumbDownContains &&
+                        !thumbUpContains
+                    ) && like === 1) {
+                        thumbUp.classList.add("evaluate");
+                    }
+                    // Si aucun like et on clique sur - , passe à dislike :
+                    else if ((
+                        !thumbDownContains &&
+                        !thumbUpContains
+                    ) && like === 0) {
+                        thumbDown.classList.add("evaluate");
+                    }
+                };
+
+                evaluateView();
+
 
 
             }).catch(err => {
                 console.log(err.response.statusText);
-                document.getElementById(`error_${postId}`).textContent = "Vous n'êtes pas connecté !";
-                document.getElementById(`error_${postId}`).classList.add("my_red");
+                errorRef.current.textContent = "Vous n'êtes pas connecté !";
+                errorRef.current.classList.add("my_red");
             })
     };
 
@@ -84,19 +95,23 @@ const PostEvaluate = ({ token, item, userId }) => {
                         onClick={() => postEvaluate(item.id, 1)}
                         className="fa-solid fa-thumbs-up fa-lg"
                         id={"thumb-up_" + item.id}
+                        ref={thumbUpRef}
+
                     ></i>
-                    <span id={"like1_" + item.id}>{item.like1}</span>
+                    <span id={"like1_" + item.id} ref={like1Ref}>{item.like1}</span>
                 </div>
                 <div className='posts__icon'>
                     <i
                         onClick={() => postEvaluate(item.id, 0)}
                         className="fa-solid fa-thumbs-down fa-lg"
                         id={"thumb-down_" + item.id}
+                        ref={thumbDownRef}
                     ></i>
-                    <span id={"like0_" + item.id}>{item.like0}</span>
+                    <span id={"like0_" + item.id} ref={like0Ref}>{item.like0}</span>
                 </div>
             </div>
             <span
+                ref={errorRef}
                 id={`error_${item.id}`}
                 type="invalid"
             />

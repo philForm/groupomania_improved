@@ -56,20 +56,18 @@ const Home = () => {
     fetchData();
   }, []);
 
-
-  const evalPost = async (userId) => {
+  // Ajoute un visuel des like de l'utilisateur sur les posts lorsque celui-ci est connecté :
+  (async (userId) => {
 
     const userIdObj = {
       userId: userId
-    }
+    };
 
     if (userIdObj && token) {
       try {
         await accountService.sendId(userIdObj, token)
           .then((res) => {
             if (res.status === 200) {
-              console.log(res.data)
-              console.log(res.data.length)
               for (let item of res.data) {
                 if (item.evaluation.data[0] === 0) {
                   document.getElementById(`thumb-down_${item.post}`).classList.add("evaluate");
@@ -87,11 +85,9 @@ const Home = () => {
       };
 
     }
-  }
+  })(userId);
 
-  // useEffect(() => {
-  evalPost(userId);
-  // }, [])
+
 
   return (
     <div className="App">
