@@ -15,7 +15,6 @@ const Home = () => {
   const [data, setData] = useState([]);
 
   const userId = tokenService.idCompare();
-  const token = tokenService.recupToken();
 
   /**
    * Récupère dans la BDD les infos de l'utilisateur :
@@ -55,39 +54,6 @@ const Home = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  // Ajoute un visuel des like de l'utilisateur sur les posts lorsque celui-ci est connecté :
-  (async (userId) => {
-
-    const userIdObj = {
-      userId: userId
-    };
-
-    if (userIdObj && token) {
-      try {
-        await accountService.sendId(userIdObj, token)
-          .then((res) => {
-            if (res.status === 200) {
-              for (let item of res.data) {
-                if (item.evaluation.data[0] === 0) {
-                  document.getElementById(`thumb-down_${item.post}`).classList.add("evaluate");
-                }
-                if (item.evaluation.data[0] === 1) {
-                  document.getElementById(`thumb-up_${item.post}`).classList.add("evaluate");
-                }
-
-              }
-            }
-          })
-      }
-      catch (error) {
-        console.error(error);
-      };
-
-    }
-  })(userId);
-
-
 
   return (
     <div className="App">

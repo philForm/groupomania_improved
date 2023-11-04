@@ -9,7 +9,7 @@ const postRouter = Router();
 
 postRouter.post("/", auth, multer, createPost);
 postRouter.post("/like", auth, postLiked);
-postRouter.post("/like/eval", sendEvaluationForOneUser);
+postRouter.post("/like/eval", auth, sendEvaluationForOneUser);
 
 postRouter.get("/", sendAllPosts);
 postRouter.get("/:id", postUserFind);

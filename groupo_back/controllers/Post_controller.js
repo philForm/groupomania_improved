@@ -353,18 +353,18 @@ const postLiked = async (req, res, next) => {
 
 const sendEvaluationForOneUser = async (req, res, next) => {
 
-    const { userId } = req.body;
+    const { userId, postId } = req.body;
 
-    const postsEval = await Db.query(`
+    const [postsEval] = await Db.query(`
         SELECT 
         post_like  evaluation,
         user_id  utilisateur,
         post_id  post
         FROM likes
-        WHERE user_id = ?;
+        WHERE user_id = ? AND post_id = ?;
         `,
         {
-            replacements: [userId],
+            replacements: [userId, postId],
             type: QueryTypes.SELECT
         }
     )

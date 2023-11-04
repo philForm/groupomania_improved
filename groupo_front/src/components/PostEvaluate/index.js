@@ -1,10 +1,10 @@
-import { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { accountService } from "@/services/account.service";
 import "@/components/PostEvaluate/postEvaluate.css";
 
 const PostEvaluate = ({ token, item, userId }) => {
 
-    console.log(item);
+    console.log(item.id);
     console.log(userId);
 
     const like1Ref = useRef();
@@ -13,6 +13,39 @@ const PostEvaluate = ({ token, item, userId }) => {
 
     const thumbUpRef = useRef();
     const thumbDownRef = useRef();
+
+    // Ajoute un visuel des like de l'utilisateur sur les posts lorsque celui-ci est connecté :
+    const evalInit = async (userId) => {
+
+        const userIdObj = {
+            userId: userId,
+            postId: item.id
+        };
+
+        if (userId && token) {
+            try {
+                await accountService.sendId(userIdObj, token)
+                    .then((res) => {
+                        console.log(res)
+                        if (res.status === 200) {
+                            if (res.data.evaluation.data[0] === 0)
+                                thumbDownRef.current.classList.add("evaluate");
+                            if (res.data.evaluation.data[0] === 1)
+                                thumbUpRef.current.classList.add("evaluate");
+                        }
+                    })
+            }
+            catch (error) {
+                console.error(error);
+            };
+
+        }
+    };
+
+    useEffect(() => {
+        evalInit(userId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
 
     /**
