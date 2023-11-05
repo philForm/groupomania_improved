@@ -4,8 +4,6 @@ import "@/components/PostEvaluate/postEvaluate.css";
 
 const PostEvaluate = ({ token, item, userId }) => {
 
-    console.log(item.id);
-    console.log(userId);
 
     const like1Ref = useRef();
     const like0Ref = useRef();
@@ -26,7 +24,7 @@ const PostEvaluate = ({ token, item, userId }) => {
             try {
                 await accountService.sendId(userIdObj, token)
                     .then((res) => {
-                        console.log(res)
+                        // console.log(res)
                         if (res.status === 200) {
                             if (res.data.evaluation.data[0] === 0)
                                 thumbDownRef.current.classList.add("evaluate");

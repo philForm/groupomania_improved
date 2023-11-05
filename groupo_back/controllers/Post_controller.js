@@ -351,6 +351,9 @@ const postLiked = async (req, res, next) => {
     };
 };
 
+/**
+ * 
+ */
 const sendEvaluationForOneUser = async (req, res, next) => {
 
     const { userId, postId } = req.body;
@@ -372,10 +375,28 @@ const sendEvaluationForOneUser = async (req, res, next) => {
 
 };
 
+const sendComment = async (req, res, next) => {
+
+    const { postId } = req.body;
+    const comments = await Db.query(`
+        SELECT comment, user_id userId, post_id postId, createdAt
+        FROM comments
+        WHERE post_id = ?
+        ORDER BY createdAt DESC;
+        `,
+        {
+            replacements: [postId],
+            type: QueryTypes.SELECT
+        }
+    )
+    res.send(comments);
+}
+
 
 module.exports = {
     createPost,
     sendAllPosts,
+    sendComment,
     modifyPost,
     postUserFind,
     deletePost,

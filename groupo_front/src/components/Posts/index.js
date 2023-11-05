@@ -10,6 +10,7 @@ import PostModifForm from '@/components/PostModifForm';
 import { ThemeContext } from '@/contexts/ThemeContext';
 
 import "@/components/Posts/posts.css";
+import PostComment from '../PostComment';
 
 /**
  * Publication et modification de posts :
@@ -162,6 +163,7 @@ const Posts = ({ data, fetchData }) => {
                     >
                         {item.post}
                     </div>
+                    <PostComment item={item.id} userId={userIdLocal} />
                     <PostEvaluate token={token} item={item} userId={userIdLocal} />
                 </div>
             )

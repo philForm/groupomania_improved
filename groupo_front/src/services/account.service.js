@@ -83,6 +83,10 @@ const likePost = (likeObj, token) => {
     );
 };
 
+const getComment = (postId) => {
+    return Axios.post('api/post/comment', postId);
+}
+
 export const accountService = {
-    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost, sendId
+    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost, sendId, getComment
 };
