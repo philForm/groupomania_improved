@@ -6,8 +6,9 @@ import { tokenService } from "@/services/storage.service";
 import logo from "@/assets/logo_groupomania_navbar.png";
 import shut from "@/assets/button-icon-shut-cliparts.png";
 
-import "@/components/Navbar/navbar.css";
 import { useTheme } from "@/hooks/useTheme";
+
+import "@/components/Navbar/navbar.css";
 
 /**
  * Barre de navigation :

@@ -68,7 +68,7 @@
 }
 
 .posts__post {
-    text-align: justify;
+    text-align: start;
     padding: 10px;
     background-color: var(--quinary-color);
     margin: 10px;

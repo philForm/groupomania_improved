@@ -3,11 +3,18 @@ import { accountService } from "@/services/account.service";
 import { tokenService } from "@/services/storage.service";
 import PostModifDelete from "@/components/PostModifDelete";
 
-const PostComment = ({ item, userId }) => {
+import { dateFormat } from "@/functions/utils";
+import { useTheme } from "@/hooks/useTheme";
+
+import '@/components/PostComment/postComment.css';
+
+const PostComment = ({ item, userId, displayComment }) => {
 
     const userIdLocal = tokenService.idCompare();
     // Récupération du rôle de l'utilisateur :
     const role = tokenService.recupRole();
+
+    const { textareaTheme } = useTheme();
 
     const [comment, setComment] = useState([]);
 
@@ -38,14 +45,27 @@ const PostComment = ({ item, userId }) => {
 
     return (
         <>
-            {comment.map(item => (
-                (comment !== undefined) &&
+            {comment && comment.map(item => (
                 <>
                     {((userIdLocal === item.userId) || role === 1) &&
-
                         <PostModifDelete item={item} />
                     }
-                    <div key={item.postId} className='posts__post'>{item.comment}</div>
+                    <div className="comment__user">
+                        <div className="nav__avatar">
+                            <img src={item.avatar} alt="avatar du commentateur" />
+                        </div>
+                        <div className="comment__date">
+                            <p>
+                                {item.email}
+                            </p>
+                            <p>
+                                {dateFormat(item.createdAt)}
+                            </p>
+                        </div>
+                    </div>
+                    <div key={item.postId} className={`posts__post comment__post ${textareaTheme}`}>
+                        {item.comment}
+                    </div>
                 </>
             )
             )}

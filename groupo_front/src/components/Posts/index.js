@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef, useContext } from 'react';
+import React, { useState, Fragment, useRef } from 'react';
 import { tokenService } from '@/services/storage.service';
 import { accountService } from '@/services/account.service';
 
@@ -6,18 +6,18 @@ import PostEvaluate from '@/components/PostEvaluate';
 import PostProfil from '@/components/PostProfil';
 import PostModifDelete from '@/components/PostModifDelete';
 import PostModifForm from '@/components/PostModifForm';
+import PostComment from '@/components/PostComment';
 
-import { ThemeContext } from '@/contexts/ThemeContext';
+import { useTheme } from '@/hooks/useTheme';
 
 import "@/components/Posts/posts.css";
-import PostComment from '../PostComment';
 
 /**
  * Publication et modification de posts :
  */
 const Posts = ({ data, fetchData }) => {
 
-
+    console.log(data)
 
     const [displayId, setDisplayId] = useState(null);
     const [image, setImage] = useState({
@@ -25,13 +25,15 @@ const Posts = ({ data, fetchData }) => {
         filepreview: null
     });
 
-    const { theme } = useContext(ThemeContext);
+    const [displayComment, setDisplayComment] = useState(null);
+
+    const { textareaTheme, postTheme } = useTheme();
 
     const userIdLocal = tokenService.idCompare();
 
     /**
-   * Prévisualisation de l'image :
-   */
+    * Prévisualisation de l'image :
+    */
     const handleChangeImage = e => {
         if (e.target.files[0] !== undefined) {
             setImage({
@@ -61,6 +63,11 @@ const Posts = ({ data, fetchData }) => {
 
 
     const toggle = (id) => displayId === id ? setDisplayId(null) : setDisplayId(id);
+
+    const handleDisplayComment = (e, id) => {
+        e.stopPropagation();
+        displayComment === id ? setDisplayComment(null) : setDisplayComment(id)
+    };
 
 
 
@@ -131,7 +138,7 @@ const Posts = ({ data, fetchData }) => {
         <Fragment>
             {data.map(item => (
                 <div key={item.id}
-                    className={`posts__container ${theme && 'posts__container-dark'}`}
+                    className={`posts__container ${postTheme}`}
                     id={`${item.id}`} data-id={`${item.id}`}
                     ref={contain}
                 >
@@ -159,11 +166,20 @@ const Posts = ({ data, fetchData }) => {
                         }
                     </div>
                     <div
-                        className={`posts__post ${theme && 'textarea-dark'}`}
+                        className={`posts__post ${textareaTheme}`}
                     >
                         {item.post}
                     </div>
-                    <PostComment item={item.id} userId={userIdLocal} />
+                    <button
+                        className="btn-primary"
+                        onClick={(e) => handleDisplayComment(e, item.id)}
+                    >
+                        Afficher les commentaires
+                    </button>
+                    {
+                        displayComment === item.id &&
+                        <PostComment item={item.id} userId={userIdLocal} />
+                    }
                     <PostEvaluate token={token} item={item} userId={userIdLocal} />
                 </div>
             )

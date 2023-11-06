@@ -1,0 +1,14 @@
+.comment__user {
+    display: flex;
+    position: relative;
+    left: 10px;
+    gap: 5px;
+}
+
+.comment__date p {
+    text-align: start;
+}
+
+.comment__post {
+    margin-left: 44px !important;
+}

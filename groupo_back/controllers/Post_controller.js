@@ -378,11 +378,27 @@ const sendEvaluationForOneUser = async (req, res, next) => {
 const sendComment = async (req, res, next) => {
 
     const { postId } = req.body;
+    // const comments = await Db.query(`
+    //     SELECT comment, user_id userId, post_id postId, createdAt
+    //     FROM comments
+    //     WHERE post_id = ?
+    //     ORDER BY createdAt DESC;
+    //     `,
+    //     {
+    //         replacements: [postId],
+    //         type: QueryTypes.SELECT
+    //     }
+    // )
     const comments = await Db.query(`
-        SELECT comment, user_id userId, post_id postId, createdAt
+        SELECT comment, user_id userId, post_id postId,
+        users.user_picture avatar,
+        users.email email,
+        comments.createdAt
         FROM comments
+        INNER JOIN users 
+        ON users.id = comments.user_id
         WHERE post_id = ?
-        ORDER BY createdAt DESC;
+        ORDER BY comments.createdAt DESC;
         `,
         {
             replacements: [postId],
