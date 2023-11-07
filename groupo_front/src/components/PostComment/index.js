@@ -2,25 +2,26 @@ import { useEffect, useState } from "react"
 import { accountService } from "@/services/account.service";
 import { tokenService } from "@/services/storage.service";
 import PostModifDelete from "@/components/PostModifDelete";
+import CommentCreate from "@/components/CommentCreate";
 
 import { dateFormat } from "@/functions/utils";
 import { useTheme } from "@/hooks/useTheme";
 
 import '@/components/PostComment/postComment.css';
 
-const PostComment = ({ item, userId, displayComment }) => {
+const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) => {
 
     const userIdLocal = tokenService.idCompare();
     // Récupération du rôle de l'utilisateur :
     const role = tokenService.recupRole();
 
-    const { textareaTheme } = useTheme();
+    const { textareaTheme, btnTheme } = useTheme();
 
     const [comment, setComment] = useState([]);
 
     const getCommentFunct = async () => {
 
-        const postId = { postId: item };
+        const postId = { postId: itemId };
 
         try {
             const result = await accountService.getComment(postId);
@@ -45,12 +46,21 @@ const PostComment = ({ item, userId, displayComment }) => {
 
     return (
         <>
+            {userIdLocal && <CommentCreate postId={itemId} userId={userId} />}
+            <button
+                className={btnTheme}
+                onClick={() => handleDisplayComment(itemId)}
+            >
+                Afficher les commentaires
+            </button>
             {comment && comment.map(item => (
-                <>
+                displayComment === item.postId &&
+                <div
+                    className="">
                     {((userIdLocal === item.userId) || role === 1) &&
                         <PostModifDelete item={item} />
                     }
-                    <div className="comment__user">
+                    <div key={item.postId} className="comment__user">
                         <div className="nav__avatar">
                             <img src={item.avatar} alt="avatar du commentateur" />
                         </div>
@@ -66,7 +76,7 @@ const PostComment = ({ item, userId, displayComment }) => {
                     <div key={item.postId} className={`posts__post comment__post ${textareaTheme}`}>
                         {item.comment}
                     </div>
-                </>
+                </div>
             )
             )}
         </>

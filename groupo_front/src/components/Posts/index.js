@@ -7,6 +7,7 @@ import PostProfil from '@/components/PostProfil';
 import PostModifDelete from '@/components/PostModifDelete';
 import PostModifForm from '@/components/PostModifForm';
 import PostComment from '@/components/PostComment';
+import CommentCreate from '@/components/CommentCreate';
 
 import { useTheme } from '@/hooks/useTheme';
 
@@ -25,6 +26,10 @@ const Posts = ({ data, fetchData }) => {
         filepreview: null
     });
 
+    // const [displayComment, setDisplayComment] = useState({
+    //     disp: "disp_none",
+    //     id: null
+    // });
     const [displayComment, setDisplayComment] = useState(null);
 
     const { textareaTheme, postTheme } = useTheme();
@@ -64,10 +69,22 @@ const Posts = ({ data, fetchData }) => {
 
     const toggle = (id) => displayId === id ? setDisplayId(null) : setDisplayId(id);
 
-    const handleDisplayComment = (e, id) => {
-        e.stopPropagation();
+    const handleDisplayComment = (id) => {
         displayComment === id ? setDisplayComment(null) : setDisplayComment(id)
     };
+    // const handleDisplayComment = (id) => {
+    //     (displayComment === "disp_bloc" && id) ?
+    //         setDisplayComment({
+    //             ...displayComment,
+    //             disp: "disp_none",
+    //             id: null
+    //         }) :
+    //         setDisplayComment({
+    //             ...displayComment,
+    //             disp: "disp_bloc",
+    //             id: id
+    //         })
+    // };
 
 
 
@@ -170,16 +187,13 @@ const Posts = ({ data, fetchData }) => {
                     >
                         {item.post}
                     </div>
-                    <button
-                        className="btn-primary"
-                        onClick={(e) => handleDisplayComment(e, item.id)}
-                    >
-                        Afficher les commentaires
-                    </button>
-                    {
-                        displayComment === item.id &&
-                        <PostComment item={item.id} userId={userIdLocal} />
-                    }
+                    <PostComment
+                        itemId={item.id}
+                        userId={userIdLocal}
+                        displayComment={displayComment}
+                        handleDisplayComment={handleDisplayComment}
+                    />
+
                     <PostEvaluate token={token} item={item} userId={userIdLocal} />
                 </div>
             )

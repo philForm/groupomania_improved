@@ -14,7 +14,7 @@ module.exports = (req, res, next) => {
         const role = decodedToken.user_role.data[0];
         req.auth = { userId, role };
 
-        if ((req.body.userId && (req.body.userId !== userId))) {
+        if ((req.body.userId && (parseInt(req.body.userId) !== userId))) {
             throw "User Id non valable !";
         } else {
             next();

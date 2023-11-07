@@ -123,7 +123,7 @@ const PostCreate = (props) => {
                     className={btnTheme}
                     type='submit'>Publier</button>
             </form >
-        </div >
+        </div>
     );
 };
 

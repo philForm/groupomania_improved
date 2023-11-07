@@ -408,9 +408,34 @@ const sendComment = async (req, res, next) => {
     res.send(comments);
 }
 
+/**
+ * Création d'un commentaire sur un post :
+ */
+const createComment = async (req, res, next) => {
+
+    let { comment, postId, userId } = req.body;
+
+    await Db.query(`
+            INSERT INTO comments (comment, post_id, user_id)
+            VALUES (?,?,?);`,
+        {
+            replacements: [
+                comment,
+                postId,
+                userId
+            ],
+            type: QueryTypes.INSERT
+        }
+    ).then(() => {
+        res.status(201).json({ message: "Message envoyé !" });
+    })
+        .catch(error => res.status(500).json({ error }));
+};
+
 
 module.exports = {
     createPost,
+    createComment,
     sendAllPosts,
     sendComment,
     modifyPost,

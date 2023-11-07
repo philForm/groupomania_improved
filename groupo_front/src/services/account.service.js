@@ -87,6 +87,18 @@ const getComment = (postId) => {
     return Axios.post('api/post/comment', postId);
 }
 
+const createComment = (data, token) => {
+    return Axios.post('api/post/create', data,
+        {
+            headers: {
+                // "Content-Type": "multipart/form-data",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+};
+
 export const accountService = {
-    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost, sendId, getComment
+    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost, sendId, getComment, createComment
 };
