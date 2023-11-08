@@ -4,6 +4,37 @@ const Db = require("../db/db.js");
 const utf8 = require("utf8");
 
 /**
+ * Renvoie l'Id de la requête et l'Id de la BDD. Permet de vérifier si un élément correspondant à l'id de la requête est présent dans la BDD :
+ * @param {*} req 
+ * @returns {object[]}
+ */
+const idOfBd = async (req, table) => {
+
+    // Récupération de l'id dans les paramètres de la requête
+    const reqId = JSON.parse(req.params.id);
+
+    // Sélection dans la BDD l'élément ayant le même id que la requête.
+    let dbId = await Db.query(
+        `SELECT id FROM ${table} WHERE id = ?;`,
+        // model :  `SELECT id FROM posts WHERE id = ?;`,
+        // request,
+        {
+            replacements: [reqId],
+            type: QueryTypes.SELECT
+        }
+    );
+
+    let result
+    for (let item in dbId) {
+        result = dbId[item].id
+        console.log(result);
+    };
+    return [result, reqId];
+
+}
+
+
+/**
  * Création d'un message
  */
 const createPost = async (req, res, next) => {
@@ -62,36 +93,7 @@ const sendAllPosts = async (req, res, next) => {
 
 };
 
-// const selectIdFromPost = `SELECT id FROM posts WHERE id = ?;`;
 
-/**
- * Renvoie l'Id de la requête et l'Id de la BDD. Permet de vérifier si un élément correspondant à l'id de la requête est présent dans la BDD :
- * @param {*} req 
- * @returns {object[]}
- */
-const idOfBd = async (req) => {
-
-    // Récupération de l'id dans les paramètres de la requête
-    const reqId = JSON.parse(req.params.id);
-
-    // Sélection dans la BDD l'élément ayant le même id que la requête.
-    let dbId = await Db.query(
-        `SELECT id FROM posts WHERE id = ?;`,
-        // request,
-        {
-            replacements: [reqId],
-            type: QueryTypes.SELECT
-        }
-    );
-
-    let result
-    for (let item in dbId) {
-        result = dbId[item].id
-        console.log(result);
-    };
-    return [result, reqId];
-
-}
 
 /**
  * Recherche le propriétaire d'un post :
@@ -115,7 +117,9 @@ const postUserFind = async (req, res, next) => {
 const modifyPost = async (req, res, next) => {
 
     /// Tableau qui récupère les Ids renvoyés par idOfBd().
-    const tab = (await idOfBd(req)).map(el => el);
+    // const tab = (await idOfBd(req, selectIdFromPost)).map(el => el);
+    const tab = idOfBd(req, "posts").map(el => el);
+    // const tab = (await idOfBd(req, "posts")).map(el => el);
 
     /// Id de la requête
     const reqId = tab[1];
@@ -206,7 +210,8 @@ const modifyPost = async (req, res, next) => {
 const deletePost = async (req, res, next) => {
 
     /// Tableau qui récupère les Ids renvoyés par idOfBd() :
-    const tab = (await idOfBd(req)).map(el => el);
+    // const tab = (await idOfBd(req, selectIdFromPost)).map(el => el);
+    const tab = idOfBd(req, "posts").map(el => el);
     /// Id de la requête :
     const reqId = tab[1];
     /// Id de la BDD :
