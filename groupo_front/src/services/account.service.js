@@ -88,7 +88,7 @@ const getComment = (postId) => {
 }
 
 const createComment = (data, token) => {
-    return Axios.post('api/post/create', data,
+    return Axios.post('api/post/comment/create', data,
         {
             headers: {
                 // "Content-Type": "multipart/form-data",

@@ -36,6 +36,10 @@ const CommentCreate = (props) => {
                 }
             })
             .catch(err => console.error(err));
+
+        props.getCommentFunct({ postId: props.postId });
+
+        document.forms["comment-create_form"].reset();
     }
 
     return (

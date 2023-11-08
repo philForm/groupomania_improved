@@ -7,7 +7,7 @@ import PostProfil from '@/components/PostProfil';
 import PostModifDelete from '@/components/PostModifDelete';
 import PostModifForm from '@/components/PostModifForm';
 import PostComment from '@/components/PostComment';
-import CommentCreate from '@/components/CommentCreate';
+// import CommentCreate from '@/components/CommentCreate';
 
 import { useTheme } from '@/hooks/useTheme';
 
@@ -70,7 +70,7 @@ const Posts = ({ data, fetchData }) => {
     const toggle = (id) => displayId === id ? setDisplayId(null) : setDisplayId(id);
 
     const handleDisplayComment = (id) => {
-        displayComment === id ? setDisplayComment(null) : setDisplayComment(id)
+        displayComment === id ? setDisplayComment(null) : setDisplayComment(id);
     };
     // const handleDisplayComment = (id) => {
     //     (displayComment === "disp_bloc" && id) ?

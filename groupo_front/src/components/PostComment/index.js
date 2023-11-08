@@ -19,12 +19,14 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
 
     const [comment, setComment] = useState([]);
 
-    const getCommentFunct = async () => {
 
-        const postId = { postId: itemId };
+    // const postId = { postId: itemId };
+    const postId = { postId: itemId };
+
+    const getCommentFunct = async (id) => {
 
         try {
-            const result = await accountService.getComment(postId);
+            const result = await accountService.getComment(id);
             if (result.data.length !== 0)
                 setComment(result.data);
         }
@@ -34,7 +36,7 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
     }
 
     useEffect(() => {
-        getCommentFunct()
+        getCommentFunct(postId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -46,7 +48,11 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
 
     return (
         <>
-            {userIdLocal && <CommentCreate postId={itemId} userId={userId} />}
+            {userIdLocal && <CommentCreate
+                postId={itemId}
+                userId={userId}
+                getCommentFunct={getCommentFunct}
+            />}
             <button
                 className={btnTheme}
                 onClick={() => handleDisplayComment(itemId)}
@@ -60,7 +66,7 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
                     {((userIdLocal === item.userId) || role === 1) &&
                         <PostModifDelete item={item} />
                     }
-                    <div key={item.postId} className="comment__user">
+                    <div className="comment__user">
                         <div className="nav__avatar">
                             <img src={item.avatar} alt="avatar du commentateur" />
                         </div>

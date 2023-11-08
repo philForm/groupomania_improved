@@ -62,30 +62,34 @@ const sendAllPosts = async (req, res, next) => {
 
 };
 
+// const selectIdFromPost = `SELECT id FROM posts WHERE id = ?;`;
+
 /**
- * Renvoie l'Id de la requête et l'Id de la BDD
+ * Renvoie l'Id de la requête et l'Id de la BDD. Permet de vérifier si un élément correspondant à l'id de la requête est présent dans la BDD :
  * @param {*} req 
  * @returns {object[]}
  */
 const idOfBd = async (req) => {
 
     // Récupération de l'id dans les paramètres de la requête
-    const postId = JSON.parse(req.params.id);
+    const reqId = JSON.parse(req.params.id);
 
-    // Sélection dans la BDD du post ayant le même id que la requête.
-    let idIntoBdd = await Db.query(
+    // Sélection dans la BDD l'élément ayant le même id que la requête.
+    let dbId = await Db.query(
         `SELECT id FROM posts WHERE id = ?;`,
+        // request,
         {
-            replacements: [postId],
+            replacements: [reqId],
             type: QueryTypes.SELECT
         }
     );
 
     let result
-    for (let item in idIntoBdd) {
-        result = idIntoBdd[item].id
+    for (let item in dbId) {
+        result = dbId[item].id
+        console.log(result);
     };
-    return [result, postId];
+    return [result, reqId];
 
 }
 
@@ -106,7 +110,7 @@ const postUserFind = async (req, res, next) => {
 };
 
 /**
- * Modifie un Post
+ * Modifie un Post :
  */
 const modifyPost = async (req, res, next) => {
 
@@ -114,7 +118,7 @@ const modifyPost = async (req, res, next) => {
     const tab = (await idOfBd(req)).map(el => el);
 
     /// Id de la requête
-    const postId = tab[1];
+    const reqId = tab[1];
     /// Id de la BDD
     const result = tab[0];
 
@@ -132,7 +136,7 @@ const modifyPost = async (req, res, next) => {
             WHERE id = ? 
             AND (user_id = ? OR ? = 1);`,
             {
-                replacements: [postId, userId, role],
+                replacements: [reqId, userId, role],
                 type: QueryTypes.SELECT
             }
         );
@@ -163,7 +167,7 @@ const modifyPost = async (req, res, next) => {
                 SET post_picture = ?
                 WHERE id = ?;`,
                 {
-                    replacements: [postPicture, postId],
+                    replacements: [postPicture, reqId],
                     type: QueryTypes.PUT
                 }
             ).then(() => {
@@ -179,7 +183,7 @@ const modifyPost = async (req, res, next) => {
                 SET post = ?
                 WHERE id = ?;`,
                 {
-                    replacements: [req.body.post, postId],
+                    replacements: [req.body.post, reqId],
                     type: QueryTypes.PUT
                 }
             ).then(() => {
@@ -204,7 +208,7 @@ const deletePost = async (req, res, next) => {
     /// Tableau qui récupère les Ids renvoyés par idOfBd() :
     const tab = (await idOfBd(req)).map(el => el);
     /// Id de la requête :
-    const postId = tab[1];
+    const reqId = tab[1];
     /// Id de la BDD :
     const result = tab[0];
 
@@ -219,7 +223,7 @@ const deletePost = async (req, res, next) => {
             FROM posts WHERE id = ? 
             AND (user_id = ? OR ? = 1);`,
             {
-                replacements: [postId, userId, role],
+                replacements: [reqId, userId, role],
                 type: QueryTypes.SELECT
             }
         );
@@ -245,14 +249,14 @@ const deletePost = async (req, res, next) => {
             WHERE id = ? 
             AND (user_id = ? OR ? = 1);`,
             {
-                replacements: [postId, userId, role],
+                replacements: [reqId, userId, role],
                 type: QueryTypes.DELETE
             }
         ).then(async () => {
             let [post] = await Db.query(`
                 SELECT id FROM posts WHERE id = ?;`,
                 {
-                    replacements: [postId],
+                    replacements: [reqId],
                     type: QueryTypes.SELECT
                 }
             );
@@ -378,17 +382,7 @@ const sendEvaluationForOneUser = async (req, res, next) => {
 const sendComment = async (req, res, next) => {
 
     const { postId } = req.body;
-    // const comments = await Db.query(`
-    //     SELECT comment, user_id userId, post_id postId, createdAt
-    //     FROM comments
-    //     WHERE post_id = ?
-    //     ORDER BY createdAt DESC;
-    //     `,
-    //     {
-    //         replacements: [postId],
-    //         type: QueryTypes.SELECT
-    //     }
-    // )
+
     const comments = await Db.query(`
         SELECT comment, user_id userId, post_id postId,
         users.user_picture avatar,
@@ -432,6 +426,10 @@ const createComment = async (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
 };
 
+const modifyComment = () => {
+
+};
+
 
 module.exports = {
     createPost,
@@ -439,6 +437,7 @@ module.exports = {
     sendAllPosts,
     sendComment,
     modifyPost,
+    modifyComment,
     postUserFind,
     deletePost,
     postLiked,
