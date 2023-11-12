@@ -118,18 +118,12 @@ const modifyPost = async (req, res, next) => {
 
     /// Tableau qui récupère les Ids renvoyés par idOfBd().
     // const tab = (await idOfBd(req, selectIdFromPost)).map(el => el);
-    const tab = idOfBd(req, "posts").map(el => el);
     // const tab = (await idOfBd(req, "posts")).map(el => el);
+    const [result, reqId] = await idOfBd(req, "posts");
 
-    /// Id de la requête
-    const reqId = tab[1];
-    /// Id de la BDD
-    const result = tab[0];
+    const { userId, role } = req.auth;
 
-    const userId = req.auth.userId;
-    const role = req.auth.role;
-
-    let postPicture = ""
+    let postPicture = "";
 
     /// Si dans la BDD un Id correspond à l'Id de la requête, le message est modifié  :
     if (result != undefined) {
@@ -211,14 +205,9 @@ const deletePost = async (req, res, next) => {
 
     /// Tableau qui récupère les Ids renvoyés par idOfBd() :
     // const tab = (await idOfBd(req, selectIdFromPost)).map(el => el);
-    const tab = idOfBd(req, "posts").map(el => el);
-    /// Id de la requête :
-    const reqId = tab[1];
-    /// Id de la BDD :
-    const result = tab[0];
+    const [result, reqId] = await idOfBd(req, "posts");
 
-    const userId = req.auth.userId;
-    const role = req.auth.role;
+    const { userId, role } = req.auth;
 
     /// Si dans la BDD un Id correspond à l'Id de la requête, le message est supprimé.
     if (result != undefined) {
@@ -384,14 +373,16 @@ const sendEvaluationForOneUser = async (req, res, next) => {
 
 };
 
+
 const sendComment = async (req, res, next) => {
 
     const { postId } = req.body;
 
     const comments = await Db.query(`
-        SELECT comment, user_id userId, post_id postId,
+        SELECT comments.id commentId, comment, user_id userId, post_id postId,
         users.user_picture avatar,
         users.email email,
+        comments.id commentId,
         comments.createdAt
         FROM comments
         INNER JOIN users 
@@ -414,26 +405,135 @@ const createComment = async (req, res, next) => {
 
     let { comment, postId, userId } = req.body;
 
-    await Db.query(`
-            INSERT INTO comments (comment, post_id, user_id)
-            VALUES (?,?,?);`,
-        {
-            replacements: [
-                comment,
-                postId,
-                userId
-            ],
-            type: QueryTypes.INSERT
-        }
-    ).then(() => {
-        res.status(201).json({ message: "Message envoyé !" });
-    })
-        .catch(error => res.status(500).json({ error }));
+    if (comment) {
+
+        await Db.query(`
+                INSERT INTO comments (comment, post_id, user_id)
+                VALUES (?,?,?);`,
+            {
+                replacements: [
+                    comment,
+                    postId,
+                    userId
+                ],
+                type: QueryTypes.INSERT
+            }
+        ).then(() => {
+            res.status(201).json({ message: "Commentaire envoyé !" });
+        })
+            .catch(error => res.status(500).json({ error }));
+    }
+    else {
+        res.status(201).json({ message: "Le commentaire est vide !" });
+    }
+
 };
 
-const modifyComment = () => {
+/**
+ * Modifie un commentaire sur un post et envoie le commentaire modifié :
+ */
+const modifyComment = async (req, res, next) => {
+    /// Tableau qui récupère les Ids renvoyés par idOfBd().
+    const [result, reqId] = await idOfBd(req, "comments");
 
+    const { userId, role } = req.auth;
+    console.log("req.auth : " + req.auth);
+    console.log("req.body : " + req.body)
+
+    console.log("req.body.userId : " + req.body.userId)
+    console.log("req.body.comment : " + req.body.comment)
+
+    /// Si dans la BDD un Id correspond à l'Id de la requête, le message est modifié :
+    if (result != undefined) {
+
+        // On sélectionne dans la BDD les éléments visés par la modification :
+        const [postBDD] = await Db.query(`
+            SELECT comment FROM comments 
+            WHERE id = ? 
+            AND (user_id = ? OR ? = 1);`,
+            {
+                replacements: [reqId, userId, role],
+                type: QueryTypes.SELECT
+            }
+        );
+        console.log("postBDD : " + postBDD.comment);
+        // Création d'un OBJET vide qui recevra les réponses :
+        let resObj = {}
+
+        // Vérification de la modification du message :
+        if (postBDD && postBDD.comment != req.body.comment) {
+
+            await Db.query(`
+                UPDATE comments
+                SET comment = ?
+                WHERE id = ?;`,
+                {
+                    replacements: [req.body.comment, reqId],
+                    type: QueryTypes.PUT
+                }
+            ).then(() => {
+                resObj.message = "Le message a été modifié !";
+            })
+                .catch(error => res.status(500).json({ error }));
+
+            const [newComment] = await Db.query(
+                `SELECT comment FROM comments WHERE id = ?`,
+                {
+                    replacements: [reqId],
+                    type: QueryTypes.SELECT
+                }
+            )
+            resObj.newComment = newComment.comment;
+        };
+        Object.keys(resObj).length !== 0 ?
+            res.status(201).json(resObj)
+            :
+            res.status(201).json({ message: "Aucune modification !" });
+    } else
+        res.status(404).json({ message: "Commentaire introuvable !" });
 };
+
+/**
+ * Supprime un Post
+ */
+const deleteComment = async (req, res, next) => {
+
+    /// Tableau qui récupère les Ids renvoyés par idOfBd() :
+    const [result, reqId] = await idOfBd(req, "comments");
+
+    const { userId, role } = req.auth;
+
+    /// Si dans la BDD un Id correspond à l'Id de la requête, le message est supprimé.
+    if (result != undefined) {
+
+        // Suppression du post :
+        await Db.query(`
+            DELETE FROM comments
+            WHERE id = ? 
+            AND (user_id = ? OR ? = 1);`,
+            {
+                replacements: [reqId, userId, role],
+                type: QueryTypes.DELETE
+            }
+        ).then(async () => {
+            let [comment] = await Db.query(`
+                SELECT id FROM comments WHERE id = ?;`,
+                {
+                    replacements: [reqId],
+                    type: QueryTypes.SELECT
+                }
+            );
+
+            if (!comment)
+                res.status(201).json({ message: "Commentaire supprimé !" });
+            else
+                res.status(401).json({ message: "Vous n'êtes pas autorisé à supprimer ce commentaire !" });
+        })
+            .catch(error => res.status(500).json({ error }));
+    } else
+        res.status(404).json({ message: "Post introuvable !" });
+
+}
 
 
 module.exports = {
@@ -445,6 +545,7 @@ module.exports = {
     modifyComment,
     postUserFind,
     deletePost,
+    deleteComment,
     postLiked,
     sendEvaluationForOneUser
 };

@@ -83,8 +83,8 @@ const likePost = (likeObj, token) => {
     );
 };
 
-const getComment = (postId) => {
-    return Axios.post('api/post/comment', postId);
+const getComment = (id) => {
+    return Axios.post('api/post/comment', id);
 }
 
 const createComment = (data, token) => {
@@ -99,6 +99,27 @@ const createComment = (data, token) => {
     );
 };
 
+const updateComment = (id, data, token) => {
+    return Axios.put(`api/post/comment/${id}`, data,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+};
+
+const deleteComment = (id, token) => {
+    return Axios.delete(`api/post/comment/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+};
+
 export const accountService = {
-    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost, sendId, getComment, createComment
+    login, signup, signupAvatarUpdate, getUser, getAllPosts, getId, createPost, updatePost, deletePost, likePost, sendId, getComment, createComment, updateComment, deleteComment
 };

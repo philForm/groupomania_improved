@@ -7,7 +7,7 @@ import { tokenService } from "@/services/storage.service";
 
 const CommentCreate = (props) => {
 
-    console.log(props)
+    // console.log(props)
 
     const token = tokenService.recupToken();
 
@@ -20,27 +20,30 @@ const CommentCreate = (props) => {
         e.preventDefault();
         console.log(commentRef.current.value);
 
-        let data = new FormData();
+        if (commentRef.current.value) {
 
-        data.append('comment', commentRef.current.value);
-        data.append('postId', parseInt(props.postId));
-        data.append('userId', parseInt(props.userId));
+            let data = new FormData();
 
-        for (let item of data)
-            console.log(item);
+            data.append('comment', commentRef.current.value);
+            data.append('postId', parseInt(props.postId));
+            data.append('userId', parseInt(props.userId));
 
-        await accountService.createComment(data, token)
-            .then((res) => {
-                if (res.status === 200) {
-                    return res
-                }
-            })
-            .catch(err => console.error(err));
+            for (let item of data)
+                console.log(item);
 
-        props.getCommentFunct({ postId: props.postId });
+            await accountService.createComment(data, token)
+                .then((res) => {
+                    if (res.status === 201) {
+                        return res
+                    }
+                })
+                .catch(err => console.error(err));
 
-        document.forms["comment-create_form"].reset();
-    }
+            document.forms["comment-create_form"].reset();
+            props.getCommentFunct({ postId: props.postId });
+
+        };
+    };
 
     return (
         <div>

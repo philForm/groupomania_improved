@@ -61,16 +61,19 @@ const Posts = ({ data, fetchData }) => {
     // Récupération du rôle de l'utilisateur :
     const role = tokenService.recupRole();
 
-    const form = useRef()
-    const post = useRef()
-    const picture = useRef()
-    const contain = useRef()
+    const form = useRef();
+    const post = useRef();
+    const picture = useRef();
+    const contain = useRef();
 
+    const btnDisplayRef = useRef({});
+    console.log(btnDisplayRef)
 
     const toggle = (id) => displayId === id ? setDisplayId(null) : setDisplayId(id);
 
-    const handleDisplayComment = (id) => {
-        displayComment === id ? setDisplayComment(null) : setDisplayComment(id);
+    const handleDisplayComment = (id, ref) => {
+        if (ref.current[id].id)
+            displayComment === id ? setDisplayComment(null) : setDisplayComment(id);
     };
     // const handleDisplayComment = (id) => {
     //     (displayComment === "disp_bloc" && id) ?
@@ -85,8 +88,6 @@ const Posts = ({ data, fetchData }) => {
     //             id: id
     //         })
     // };
-
-
 
     /**
      * Supprimer un post
@@ -192,6 +193,7 @@ const Posts = ({ data, fetchData }) => {
                         userId={userIdLocal}
                         displayComment={displayComment}
                         handleDisplayComment={handleDisplayComment}
+                        btnDisplayRef={btnDisplayRef}
                     />
 
                     <PostEvaluate token={token} item={item} userId={userIdLocal} />

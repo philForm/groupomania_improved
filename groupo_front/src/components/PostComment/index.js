@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { accountService } from "@/services/account.service";
 import { tokenService } from "@/services/storage.service";
-import PostModifDelete from "@/components/PostModifDelete";
+import CommentModifDelete from "@/components/CommentModifDelete";
 import CommentCreate from "@/components/CommentCreate";
 
 import { dateFormat } from "@/functions/utils";
 import { useTheme } from "@/hooks/useTheme";
 
 import '@/components/PostComment/postComment.css';
+import CommentModifForm from "../CommentModifForm";
 
-const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) => {
+const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btnDisplayRef }) => {
 
     const userIdLocal = tokenService.idCompare();
     // Récupération du rôle de l'utilisateur :
@@ -19,8 +20,16 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
 
     const [comment, setComment] = useState([]);
 
+    const [display, setDisplay] = useState(null);
 
-    // const postId = { postId: itemId };
+    const valueRef = useRef({});
+
+    // const toggle = (id) => {
+    //     setDisplay(disp => !disp)
+    // };
+
+    const toggle = (id) => display === id ? setDisplay(null) : setDisplay(id);
+
     const postId = { postId: itemId };
 
     const getCommentFunct = async (id) => {
@@ -40,11 +49,11 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    if (comment !== undefined)
-        console.log(comment)
-    for (let item in comment) {
-        console.log(comment[item].comment)
-    }
+    // if (comment !== undefined)
+    //     console.log(comment)
+    // for (let item in comment) {
+    //     console.log(comment[item].comment)
+    // }
 
     return (
         <>
@@ -55,16 +64,35 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
             />}
             <button
                 className={btnTheme}
-                onClick={() => handleDisplayComment(itemId)}
+                id={`display-comment-${itemId}`}
+                onClick={() => handleDisplayComment(itemId, btnDisplayRef)}
+                ref={el => (btnDisplayRef.current[itemId]) = el}
             >
                 Afficher les commentaires
             </button>
             {comment && comment.map(item => (
                 displayComment === item.postId &&
                 <div
+                    key={item.commentId}
                     className="">
                     {((userIdLocal === item.userId) || role === 1) &&
-                        <PostModifDelete item={item} />
+                        <CommentModifDelete
+                            item={item}
+                            toggle={toggle}
+                            btnDisplayRef={btnDisplayRef}
+                            getCommentFunct={getCommentFunct}
+                        />
+                    }
+
+                    {display === item.commentId &&
+                        <CommentModifForm
+                            commentId={item.commentId}
+                            userId={item.userId}
+                            comment={item.comment}
+                            postId={itemId}
+                            getCommentFunct={getCommentFunct}
+                            valueRef={valueRef}
+                        />
                     }
                     <div className="comment__user">
                         <div className="nav__avatar">
@@ -79,7 +107,11 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment }) =
                             </p>
                         </div>
                     </div>
-                    <div key={item.postId} className={`posts__post comment__post ${textareaTheme}`}>
+                    <div
+                        id={`comment-${item.commentId}`}
+                        className={`posts__post comment__post ${textareaTheme}`}
+                        ref={el => (valueRef.current[item.commentId]) = el}
+                    >
                         {item.comment}
                     </div>
                 </div>

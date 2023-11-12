@@ -2,7 +2,7 @@ const { Router } = require("express");
 const auth = require("../middleware/auth")
 const multer = require("../middleware/multer_config");
 
-const { createPost, sendAllPosts, modifyPost, deletePost, postUserFind, postLiked, sendEvaluationForOneUser, sendComment, createComment } = require("../controllers/Post_controller.js");
+const { createPost, sendAllPosts, modifyPost, deletePost, deleteComment, postUserFind, postLiked, sendEvaluationForOneUser, sendComment, createComment, modifyComment } = require("../controllers/Post_controller.js");
 
 
 const postRouter = Router();
@@ -17,9 +17,9 @@ postRouter.get("/", sendAllPosts);
 postRouter.get("/:id", postUserFind);
 
 postRouter.put("/:id", auth, multer, modifyPost);
-// postRouter.put("/comment/:id", auth, modifyComment)
+postRouter.put("/comment/:id", auth, modifyComment);
 
 postRouter.delete("/:id", auth, deletePost);
-
+postRouter.delete("/comment/:id", auth, deleteComment)
 
 module.exports = postRouter;
