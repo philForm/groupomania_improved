@@ -3,12 +3,12 @@ import { accountService } from "@/services/account.service";
 import { tokenService } from "@/services/storage.service";
 import CommentModifDelete from "@/components/CommentModifDelete";
 import CommentCreate from "@/components/CommentCreate";
+import CommentModifForm from "@/components/CommentModifForm";
 
 import { dateFormat } from "@/functions/utils";
 import { useTheme } from "@/hooks/useTheme";
 
 import '@/components/PostComment/postComment.css';
-import CommentModifForm from "../CommentModifForm";
 
 const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btnDisplayRef }) => {
 
