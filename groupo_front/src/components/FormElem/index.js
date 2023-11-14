@@ -73,19 +73,18 @@ const FormElem = () => {
         <div className="App" >
             <div className={`form_1 ${formTheme}`} >
                 <button
-                    className="disp_none btn-primary"
+                    className="btn-primary disp_none"
                     onClick={displayForm}
                     id="signup"
-                    ref={signup}>
-                    Aller au formulaire de connexion
+                    ref={signup}
+                >Aller au formulaire de connexion
                 </button>
-
                 <button
-                    className="wid btn-primary"
+                    className="btn-primary wid"
                     onClick={displayForm}
                     id="login"
-                    ref={login}>
-                    Aller au formulaire d'inscription
+                    ref={login}
+                >Aller au formulaire d'inscription
                 </button>
                 {displaySignup && !displayLogin ?
                     <Signup dispForm={displayForm} /> : <Login />

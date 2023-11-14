@@ -1,3 +1,4 @@
+
 import { useTheme } from "@/hooks/useTheme";
 import { useRef } from "react";
 
@@ -60,7 +61,8 @@ const CommentCreate = (props) => {
                 </div>
                 <button
                     className={btnTheme}
-                    type='submit'>Publier</button>
+                    type='submit'>Publier
+                </button>
             </form >
 
         </div>

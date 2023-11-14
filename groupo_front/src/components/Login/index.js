@@ -80,7 +80,8 @@ const Login = () => {
                     <button
                         className={btnTheme}
                         type="submit"
-                    >Connexion</button>
+                    >Connexion
+                    </button>
                 </div>
             </form>
         </div>

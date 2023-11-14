@@ -1,3 +1,4 @@
+
 import { useTheme } from '@/hooks/useTheme';
 import { accountService } from '@/services/account.service';
 import { tokenService } from '@/services/storage.service';
@@ -44,7 +45,8 @@ const CommentModifDelete = ({ item, toggle, btnDisplayRef, getCommentFunct }) =>
             <button
                 className={btnTheme}
                 onClick={() => handleDeleteComment(item.commentId)}
-            >Supprimer</button>
+            >Supprimer
+            </button>
         </div>
     )
 }

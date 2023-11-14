@@ -1,3 +1,4 @@
+
 import { useTheme } from "@/hooks/useTheme";
 import { useRef, useState } from "react";
 
@@ -14,15 +15,26 @@ const CommentModifForm = (props) => {
     const commentRef = useRef();
     const btnSubmit = useRef();
 
+
     const { textareaTheme, btnTheme } = useTheme();
 
     const [res, setRes] = useState()
 
+    const [message, setMessage] = useState(props.valueRef.current[props.commentId].innerText);
+
+    const handleMessageChange = e => {
+        // 👇️ access textarea value
+        setMessage(e.target.value);
+        console.log(e.target.value);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(commentRef.current.value);
+        console.log(commentRef);
 
         // if (commentRef.current.value) {
+
 
         let data = new FormData();
 
@@ -48,15 +60,20 @@ const CommentModifForm = (props) => {
             if (result.data.message !== "Aucune modification !") {
                 // props.getCommentFunct({ postId: props.postId });
                 props.valueRef.current[props.commentId].innerText = result.data.newComment;
-                commentRef.current.innerText = result.data.newComment;
+                // document.forms["comment-modif_form"].reset();
+                // commentRef.current.value = result.data.newComment;
+                // console.log(commentRef.current.defaultValue);
+                commentRef.current.defaultValue = props.valueRef.current[props.commentId].innerText;
+                // console.log(commentRef.current.defaultValue);
             }
-            // document.forms["comment-modif_form"].reset();
         }
         catch (error) {
             console.log(error);
         }
 
     };
+
+    console.log(res)
 
     return (
         <div>
@@ -69,13 +86,17 @@ const CommentModifForm = (props) => {
                         id='comment-modif'
                         name='comment-modif'
                         ref={commentRef}
-                        defaultValue={props.comment}
+                        value={message}
+                        onChange={handleMessageChange}
+                        defaultValue={props.valueRef.current[props.commentId].innerText}
                     /><br />
                 </div>
                 <button
                     className={btnTheme}
                     ref={btnSubmit}
-                    type='submit'>Modifier</button>
+                    type='submit'
+                >Modifier
+                </button>
             </form >
 
         </div>

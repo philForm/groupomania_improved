@@ -229,7 +229,8 @@ const Signup = (props) => {
                 <button
                     className={btnTheme}
                     type="submit"
-                >Inscription</button>
+                >Inscription
+                </button>
             </form>
         </div>
     );

@@ -79,7 +79,10 @@ const Navbar = () => {
             </div>
             <div className="popup">Changez l'image de votre avatar</div>
             <div className="nav__deconnect">
-              <button onClick={logout} className="nav__deconnect">
+              <button
+                onClick={logout}
+                className="nav__deconnect"
+              >
                 <img src={shut} alt="icone de déconnexion" />
               </button>
             </div>
