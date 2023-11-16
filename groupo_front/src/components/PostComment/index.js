@@ -88,7 +88,6 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
                         <CommentModifForm
                             commentId={item.commentId}
                             userId={item.userId}
-                            comment={item.comment}
                             postId={itemId}
                             getCommentFunct={getCommentFunct}
                             valueRef={valueRef}
@@ -110,6 +109,7 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
                     <div
                         id={`comment-${item.commentId}`}
                         className={`posts__post comment__post ${textareaTheme}`}
+                        // rend la ref dynamique :
                         ref={el => (valueRef.current[item.commentId]) = el}
                     >
                         {item.comment}

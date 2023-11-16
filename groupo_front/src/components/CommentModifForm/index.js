@@ -22,10 +22,9 @@ const CommentModifForm = (props) => {
 
     const [message, setMessage] = useState(props.valueRef.current[props.commentId].innerText);
 
-    const handleMessageChange = e => {
+    const handleMessageChange = () => {
         // 👇️ access textarea value
-        setMessage(e.target.value);
-        console.log(e.target.value);
+        setMessage(commentRef.current.value);
     };
 
     const handleSubmit = async (e) => {
@@ -57,14 +56,10 @@ const CommentModifForm = (props) => {
             setRes(result)
             console.log(result)
             console.log(props.valueRef)
-            if (result.data.message !== "Aucune modification !") {
+            if (result.status === 201) {
                 // props.getCommentFunct({ postId: props.postId });
                 props.valueRef.current[props.commentId].innerText = result.data.newComment;
                 // document.forms["comment-modif_form"].reset();
-                // commentRef.current.value = result.data.newComment;
-                // console.log(commentRef.current.defaultValue);
-                commentRef.current.defaultValue = props.valueRef.current[props.commentId].innerText;
-                // console.log(commentRef.current.defaultValue);
             }
         }
         catch (error) {
@@ -86,9 +81,8 @@ const CommentModifForm = (props) => {
                         id='comment-modif'
                         name='comment-modif'
                         ref={commentRef}
-                        value={message}
                         onChange={handleMessageChange}
-                        defaultValue={props.valueRef.current[props.commentId].innerText}
+                        defaultValue={message}
                     /><br />
                 </div>
                 <button
