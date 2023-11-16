@@ -152,7 +152,12 @@ const modifyPost = async (req, res, next) => {
                 //     if (err) throw err;
                 // });
                 try {
-                    fs.unlink(`images/${image}`);
+                    console.log("ancienne image supprimée !!")
+                    // fs.unlink(`images/${image}`);
+                    fs.unlink(`images/${image}`, (err) => {
+                        if (err) throw err;
+                    });
+
                 } catch (err) {
                     console.log(err);
                 }
@@ -190,6 +195,20 @@ const modifyPost = async (req, res, next) => {
                 .catch(error => res.status(500).json({ error }));
 
         };
+
+        const [resData] = await Db.query(`
+                SELECT 
+                post, 
+                post_picture postPicture
+                FROM posts
+                WHERE id = ?`,
+            {
+                replacements: [reqId],
+                type: QueryTypes.SELECT
+            }
+        )
+        resObj.resData = resData;
+
         Object.keys(resObj).length !== 0 ?
             res.status(201).json(resObj)
             :

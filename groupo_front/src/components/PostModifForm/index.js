@@ -1,8 +1,16 @@
+import { useState } from "react";
 import { useTheme } from "@/hooks/useTheme";
 
-const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, picture, image }) => {
+const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, picture, image, postRef }) => {
 
     const { btnTheme, postTheme, textareaTheme } = useTheme();
+
+    const [message, setMessage] = useState(postRef.current[item.id].innerText);
+
+    const handleMessageChange = () => {
+        // 👇️ access textarea value
+        setMessage(post.current.value);
+    };
 
 
     return (
@@ -18,7 +26,9 @@ const PostModifForm = ({ postUpdate, handleChangeImage, item, form, post, pictur
                         id='post-update'
                         name='post'
                         ref={post}
-                        defaultValue={item.post} >
+                        onChange={handleMessageChange}
+                        defaultValue={message}
+                    >
                     </textarea> <br />
                 </div>
                 <div className='posts__form'>

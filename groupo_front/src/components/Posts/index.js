@@ -66,6 +66,9 @@ const Posts = ({ data, fetchData }) => {
     const picture = useRef();
     const contain = useRef();
 
+    const imgRef = useRef({});
+    const postRef = useRef({});
+
     const btnDisplayRef = useRef({});
     console.log(btnDisplayRef)
 
@@ -140,15 +143,31 @@ const Posts = ({ data, fetchData }) => {
 
         await accountService.updatePost(id, formData, token)
             .then((res) => {
-                if (res.status === 200) {
+                if (res.status === 201) {
+                    console.log(res)
+                    imgRef.current[id].src = res.data.resData.postPicture;
+                    postRef.current[id].innerText = res.data.resData.post;
                     return res
                 }
             })
             .catch(err => console.error(err));
+        // try {
+        //     const result = accountService.updatePost(id, formData, token);
+        //     setRes(result)
+        //     console.log(res)
+        //     if (result.status === 201) {
+        //         // props.getCommentFunct({ postId: props.postId });
+        //         // imgRef.current[item.id].innerText = result.data.newComment;
+        //         // document.forms["comment-modif_form"].reset();
+        //     }
+        // }
+        // catch (error) {
+
+        // }
 
         toggle();
 
-        fetchData();
+        // fetchData();
     };
 
 
@@ -175,16 +194,22 @@ const Posts = ({ data, fetchData }) => {
                             post={post}
                             picture={picture}
                             image={image}
+                            postRef={postRef}
                         />
                     }
 
                     <div className='posts__img'>
                         {(item.post_picture && item.post_picture !== "") &&
-                            <img src={item.post_picture} alt="post" />
+                            <img
+                                src={item.post_picture}
+                                alt="post"
+                                ref={el => (imgRef.current[item.id]) = el}
+                            />
                         }
                     </div>
                     <div
                         className={`posts__post ${textareaTheme}`}
+                        ref={el => (postRef.current[item.id]) = el}
                     >
                         {item.post}
                     </div>
