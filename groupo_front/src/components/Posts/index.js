@@ -220,7 +220,6 @@ const Posts = ({ data, fetchData }) => {
                         handleDisplayComment={handleDisplayComment}
                         btnDisplayRef={btnDisplayRef}
                     />
-
                     <PostEvaluate token={token} item={item} userId={userIdLocal} />
                 </div>
             )
