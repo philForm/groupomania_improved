@@ -23,6 +23,7 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
     const [display, setDisplay] = useState(null);
 
     const valueRef = useRef({});
+    // const countRef = useRef({});
 
     // const toggle = (id) => {
     //     setDisplay(disp => !disp)
@@ -36,8 +37,9 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
 
         try {
             const result = await accountService.getComment(id);
-            if (result.data.length !== 0)
-                setComment(result.data);
+            setComment(result.data);
+            console.log(result.data.length)
+
         }
         catch (error) {
             console.log(error);
@@ -54,6 +56,7 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
     // for (let item in comment) {
     //     console.log(comment[item].comment)
     // }
+    console.log(comment.length)
 
     return (
         <>
@@ -62,14 +65,23 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
                 userId={userId}
                 getCommentFunct={getCommentFunct}
             />}
-            <button
-                className={btnTheme}
-                id={`display-comment-${itemId}`}
-                onClick={() => handleDisplayComment(itemId, btnDisplayRef)}
-                ref={el => (btnDisplayRef.current[itemId]) = el}
-            >
-                Afficher les commentaires
-            </button>
+            {comment.length !== 0 &&
+                <>
+                    <button
+                        className={btnTheme}
+                        id={`display-comment-${itemId}`}
+                        onClick={() => handleDisplayComment(itemId, btnDisplayRef)}
+                        ref={el => (btnDisplayRef.current[itemId]) = el}
+                    >
+                        {comment.length === 1 ? "Afficher le commentaire" : `Afficher les ${comment.length} commentaires`}
+                    </button>
+                    {/* <div className="comment__count">
+                        <span>
+                            {comment.length}
+                        </span>
+                    </div> */}
+                </>
+            }
             {comment && comment.map(item => (
                 displayComment === item.postId &&
                 <div

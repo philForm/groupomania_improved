@@ -12,3 +12,12 @@
 .comment__post {
     margin-left: 44px !important;
 }
+
+.comment__count {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: red;
+    padding: 3px;
+    border-radius: 50%;
+}

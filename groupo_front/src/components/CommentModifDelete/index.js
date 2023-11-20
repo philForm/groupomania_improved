@@ -26,7 +26,7 @@ const CommentModifDelete = ({ item, toggle, btnDisplayRef, getCommentFunct }) =>
                 .then((res) => {
                     if (res.status === 201) {
                         getCommentFunct({ postId: item.postId });
-                        return res
+                        // return res
                     }
                 })
                 .catch(err => console.error(err));

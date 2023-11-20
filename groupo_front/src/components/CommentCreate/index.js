@@ -8,12 +8,13 @@ import { tokenService } from "@/services/storage.service";
 
 const CommentCreate = (props) => {
 
-    // console.log(props)
+    console.log(props)
 
     const token = tokenService.recupToken();
 
     const formRef = useRef();
     const commentRef = useRef()
+
 
     const { textareaTheme, btnTheme } = useTheme()
 
@@ -40,7 +41,7 @@ const CommentCreate = (props) => {
                 })
                 .catch(err => console.error(err));
 
-            document.forms["comment-create_form"].reset();
+            document.forms[`comment-create_form-${props.postId}`].reset();
             props.getCommentFunct({ postId: props.postId });
 
         };
@@ -48,7 +49,7 @@ const CommentCreate = (props) => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} ref={formRef} name="comment-create_form">
+            <form onSubmit={handleSubmit} ref={formRef} name={`comment-create_form-${props.postId}`}>
                 <div className='posts__form'>
                     <label htmlFor="comment-create">Commentaire</label><br />
                     <textarea
