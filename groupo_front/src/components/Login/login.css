@@ -3,3 +3,18 @@
     flex-direction: column;
     align-items: center;
 }
+
+.input {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.input i {
+    position: absolute;
+    cursor: pointer;
+    right: 10px;
+    color: red;
+}

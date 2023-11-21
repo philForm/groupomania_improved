@@ -392,7 +392,9 @@ const sendEvaluationForOneUser = async (req, res, next) => {
 
 };
 
-
+/**
+ * Envoyer tous les commentaires d'un post :
+ */
 const sendComment = async (req, res, next) => {
 
     const { postId } = req.body;

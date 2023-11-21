@@ -221,7 +221,8 @@ const Signup = (props) => {
                         type="password"
                         name='password-confirm'
                         placeholder="Confirmation du mot de passe"
-                        required />
+                        required
+                    />
                     <span type="invalid" ref={valid2} >
                         {/* {verifPassword.text.validConfirm} */}
                     </ span>
