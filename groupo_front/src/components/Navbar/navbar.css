@@ -18,6 +18,26 @@
     z-index: 1;
 }
 
+.vertical_center {
+    display: flex;
+    align-items: center;
+}
+
+.vertical_center i {
+    color: goldenrod;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+
+.vertical_center i:hover {
+    color: gold;
+    scale: 1.02;
+}
+
+.vertical_center i:active {
+    scale: 0.9;
+}
+
 .nav {
     display: -webkit-box;
     display: -ms-flexbox;

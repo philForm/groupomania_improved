@@ -17,7 +17,8 @@ export const useTheme = () => {
         formTheme: theme ? 'posts__container-dark' : 'form_1-color',
         connectTheme: theme && 'connect-dark',
         avatarTheme: theme && 'avatar-dark',
-        btnTxtTheme: theme ? "Light" : "Dark",
+        // btnTxtTheme: theme ? "Light" : "Dark",
+        btnTxtTheme: theme ? "fa-sun" : "fa-moon",
         textareaTheme: theme && "textarea-dark",
         postTheme: theme && 'posts__container-dark'
     };

@@ -20,7 +20,7 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  const { navTheme, btnTheme, connectTheme, avatarTheme, btnTxtTheme, toggleTheme } = useTheme();
+  const { navTheme, connectTheme, avatarTheme, btnTxtTheme, toggleTheme } = useTheme();
 
   const [logged, setLogged] = useState(false);
   // eslint-disable-next-line no-unused-vars
@@ -53,11 +53,12 @@ const Navbar = () => {
       <div className="nav__logo">
         <img src={logo} alt="logo" className="logo App-logo" />
 
-        <button
-          className={btnTheme}
+        <div className="vertical_center"
+          // className={btnTheme}
           onClick={() => toggleTheme()}
-        >{btnTxtTheme}
-        </button>
+        >
+          <i className={`fa-regular ${btnTxtTheme}`}></i>
+        </div>
 
       </div>
       <div
