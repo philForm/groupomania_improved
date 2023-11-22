@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { accountService } from "@/services/account.service";
 import { tokenService } from "@/services/storage.service";
-import CommentModifDelete from "@/components/CommentModifDelete";
+// import CommentModifDelete from "@/components/CommentModifDelete";
 import CommentCreate from "@/components/CommentCreate";
 import CommentModifForm from "@/components/CommentModifForm";
 
@@ -22,12 +22,11 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
 
     const [display, setDisplay] = useState(null);
 
+    // Récupération du token dans le localStorage :
+    const token = tokenService.recupToken();
+
     const valueRef = useRef({});
     // const countRef = useRef({});
-
-    // const toggle = (id) => {
-    //     setDisplay(disp => !disp)
-    // };
 
     const toggle = (id) => display === id ? setDisplay(null) : setDisplay(id);
 
@@ -44,6 +43,26 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
         catch (error) {
             console.log(error);
         }
+    }
+
+    const handleDeleteComment = async (id, postId) => {
+        let confirmation = false;
+        confirmation = window.confirm(
+            'Confirmer la suppression du commentaire !'
+        );
+
+        if (confirmation) {
+
+            await accountService.deleteComment(id, token)
+                .then((res) => {
+                    if (res.status === 201) {
+                        getCommentFunct({ postId: postId });
+                        // return res
+                    }
+                })
+                .catch(err => console.error(err));
+
+        };
     }
 
     useEffect(() => {
@@ -87,16 +106,16 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
                 <div
                     key={item.commentId}
                     className="">
-                    {((userIdLocal === item.userId) || role === 1) &&
+                    {/* {((userIdLocal === item.userId) || role === 1) &&
                         <CommentModifDelete
                             item={item}
                             toggle={toggle}
                             btnDisplayRef={btnDisplayRef}
                             getCommentFunct={getCommentFunct}
                         />
-                    }
+                    } */}
 
-                    {display === item.commentId &&
+                    {/* {display === item.commentId &&
                         <CommentModifForm
                             commentId={item.commentId}
                             userId={item.userId}
@@ -104,19 +123,33 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
                             getCommentFunct={getCommentFunct}
                             valueRef={valueRef}
                         />
-                    }
+                    } */}
                     <div className="comment__user">
-                        <div className="nav__avatar">
-                            <img src={item.avatar} alt="avatar du commentateur" />
+                        <div>
+                            <div className="nav__avatar">
+                                <img src={item.avatar} alt="avatar du commentateur" />
+                            </div>
+                            <div className="comment__date">
+                                <p>
+                                    {item.email}
+                                </p>
+                                <p>
+                                    {dateFormat(item.createdAt)}
+                                </p>
+                            </div>
                         </div>
-                        <div className="comment__date">
-                            <p>
-                                {item.email}
-                            </p>
-                            <p>
-                                {dateFormat(item.createdAt)}
-                            </p>
-                        </div>
+                        {((userIdLocal === item.userId) || role === 1) &&
+                            <div className="">
+                                <i
+                                    onClick={() => toggle(item.commentId)}
+                                    className={`${btnTheme} fa-solid fa-pen-nib`}
+                                ></i>
+                                <i
+                                    onClick={() => handleDeleteComment(item.commentId, item.postId)}
+                                    className={`${btnTheme} fa-solid fa-trash`}
+                                ></i>
+                            </div>
+                        }
                     </div>
                     <div
                         id={`comment-${item.commentId}`}
@@ -126,6 +159,16 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
                     >
                         {item.comment}
                     </div>
+                    {display === item.commentId &&
+                        <CommentModifForm
+                            commentId={item.commentId}
+                            userId={item.userId}
+                            // postId={itemId}
+                            getCommentFunct={getCommentFunct}
+                            valueRef={valueRef}
+                            toggle={toggle}
+                        />
+                    }
                 </div>
             )
             )}

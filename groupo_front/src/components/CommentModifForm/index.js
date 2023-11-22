@@ -51,21 +51,26 @@ const CommentModifForm = (props) => {
         //         }
         //     })
         //     .catch(err => console.error(err));
-        try {
-            const result = await accountService.updateComment(props.commentId, data, token);
-            setRes(result)
-            console.log(result)
-            console.log(props.valueRef)
-            if (result.status === 201) {
-                // props.getCommentFunct({ postId: props.postId });
-                props.valueRef.current[props.commentId].innerText = result.data.newComment;
-                // document.forms["comment-modif_form"].reset();
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
+        if (commentRef.current.value !== props.valueRef.current[props.commentId].innerText) {
 
+            try {
+                const result = await accountService.updateComment(props.commentId, data, token);
+                setRes(result)
+                console.log(result)
+                console.log(props.valueRef)
+                if (result.status === 201) {
+                    // props.getCommentFunct({ postId: props.postId });
+                    console.log(props.valueRef.current[props.commentId])
+                    props.valueRef.current[props.commentId].innerText = result.data.newComment;
+                    // document.forms["comment-modif_form"].reset();
+                    props.toggle(null);
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+
+        }
     };
 
     console.log(res)
