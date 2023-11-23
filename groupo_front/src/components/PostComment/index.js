@@ -1,4 +1,7 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+
 import { accountService } from "@/services/account.service";
 import { tokenService } from "@/services/storage.service";
 // import CommentModifDelete from "@/components/CommentModifDelete";
@@ -10,7 +13,7 @@ import { useTheme } from "@/hooks/useTheme";
 
 import '@/components/PostComment/postComment.css';
 
-const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btnDisplayRef }) => {
+const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btnDisplayRef, displayCreateComment }) => {
 
     const userIdLocal = tokenService.idCompare();
     // Récupération du rôle de l'utilisateur :
@@ -29,6 +32,8 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
     // const countRef = useRef({});
 
     const toggle = (id) => display === id ? setDisplay(null) : setDisplay(id);
+
+
 
     const postId = { postId: itemId };
 
@@ -79,7 +84,7 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
 
     return (
         <>
-            {userIdLocal && <CommentCreate
+            {(userIdLocal && displayCreateComment === itemId) && <CommentCreate
                 postId={itemId}
                 userId={userId}
                 getCommentFunct={getCommentFunct}
@@ -140,14 +145,35 @@ const PostComment = ({ itemId, userId, displayComment, handleDisplayComment, btn
                         </div>
                         {((userIdLocal === item.userId) || role === 1) &&
                             <div className="">
-                                <i
-                                    onClick={() => toggle(item.commentId)}
-                                    className={`${btnTheme} fa-solid fa-pen-nib`}
-                                ></i>
-                                <i
-                                    onClick={() => handleDeleteComment(item.commentId, item.postId)}
-                                    className={`${btnTheme} fa-solid fa-trash`}
-                                ></i>
+                                <Popup
+                                    className="my-popup"
+                                    trigger={() => (
+                                        <i
+                                            onClick={() => toggle(item.commentId)}
+                                            className={`${btnTheme} fa-solid fa-pen-nib`}
+                                        ></i>
+                                    )}
+                                    position='bottom center'
+                                    on={['hover', 'focus']}
+                                // closeOnDocumentClick
+
+                                >
+                                    <span>Modifier</span>
+                                </Popup>
+                                <Popup
+                                    className="my-popup"
+                                    trigger={() => (
+                                        <i
+                                            onClick={() => handleDeleteComment(item.commentId, item.postId)}
+                                            className={`${btnTheme} fa-solid fa-trash`}
+                                        ></i>
+                                    )}
+                                    position='bottom center'
+                                    on={['hover', 'focus']}
+                                // closeOnDocumentClick
+                                >
+                                    <span>Supprimer</span>
+                                </Popup>
                             </div>
                         }
                     </div>

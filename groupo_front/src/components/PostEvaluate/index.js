@@ -1,9 +1,14 @@
 import React, { useRef, useEffect } from "react";
+import Popup from 'reactjs-popup';
+
 import { accountService } from "@/services/account.service";
 import "@/components/PostEvaluate/postEvaluate.css";
+import { useTheme } from "@/hooks/useTheme";
 
-const PostEvaluate = ({ token, item, userId }) => {
 
+const PostEvaluate = ({ token, item, userId, toggleCreateComment }) => {
+
+    const { btnTheme } = useTheme()
 
     const like1Ref = useRef();
     const like0Ref = useRef();
@@ -121,24 +126,40 @@ const PostEvaluate = ({ token, item, userId }) => {
     return (
         <>
             <div className='posts__eval'>
-                <div className='posts__icon'>
-                    <i
-                        onClick={() => postEvaluate(item.id, 1)}
-                        className="fa-solid fa-thumbs-up fa-lg"
-                        id={"thumb-up_" + item.id}
-                        ref={thumbUpRef}
+                <Popup
+                    className="my-popup"
+                    trigger={() => (
+                        <i
+                            onClick={() => toggleCreateComment(item.id)}
+                            className={`${btnTheme} fa-solid fa-pen-nib`}
+                        ></i>
+                    )}
+                    position='right center'
+                    on={['hover', 'focus']}
+                >
+                    <span>Ecrire un commentaire</span>
+                </Popup>
 
-                    ></i>
-                    <span id={"like1_" + item.id} ref={like1Ref}>{item.like1}</span>
-                </div>
-                <div className='posts__icon'>
-                    <i
-                        onClick={() => postEvaluate(item.id, 0)}
-                        className="fa-solid fa-thumbs-down fa-lg"
-                        id={"thumb-down_" + item.id}
-                        ref={thumbDownRef}
-                    ></i>
-                    <span id={"like0_" + item.id} ref={like0Ref}>{item.like0}</span>
+                <div>
+                    <div className='posts__icon'>
+                        <i
+                            onClick={() => postEvaluate(item.id, 1)}
+                            className="fa-solid fa-thumbs-up fa-lg"
+                            id={"thumb-up_" + item.id}
+                            ref={thumbUpRef}
+
+                        ></i>
+                        <span id={"like1_" + item.id} ref={like1Ref}>{item.like1}</span>
+                    </div>
+                    <div className='posts__icon'>
+                        <i
+                            onClick={() => postEvaluate(item.id, 0)}
+                            className="fa-solid fa-thumbs-down fa-lg"
+                            id={"thumb-down_" + item.id}
+                            ref={thumbDownRef}
+                        ></i>
+                        <span id={"like0_" + item.id} ref={like0Ref}>{item.like0}</span>
+                    </div>
                 </div>
             </div>
             <span

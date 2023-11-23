@@ -32,6 +32,11 @@ const Posts = ({ data, fetchData }) => {
     // });
     const [displayComment, setDisplayComment] = useState(null);
 
+    const [displayCreateComment, setDisplayCreateComment] = useState(false);
+
+    const toggleCreateComment = (id) => displayCreateComment === id ? setDisplayCreateComment(null) : setDisplayCreateComment(id);
+
+
     const { textareaTheme, postTheme } = useTheme();
 
     const userIdLocal = tokenService.idCompare();
@@ -219,8 +224,15 @@ const Posts = ({ data, fetchData }) => {
                         displayComment={displayComment}
                         handleDisplayComment={handleDisplayComment}
                         btnDisplayRef={btnDisplayRef}
+                        // setDisplayCreateComment={setDisplayCreateComment}
+                        displayCreateComment={displayCreateComment}
                     />
-                    <PostEvaluate token={token} item={item} userId={userIdLocal} />
+                    <PostEvaluate
+                        token={token}
+                        item={item}
+                        userId={userIdLocal}
+                        toggleCreateComment={toggleCreateComment}
+                    />
                 </div>
             )
             )}
